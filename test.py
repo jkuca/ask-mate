@@ -1,6 +1,11 @@
 import csv
 
 with open("sample_data/question.csv", "r", newline="") as file:
+    data = {}
+    header = [file.readline()]
     read = file.readlines()
-    header = [element for i, element in enumerate(read) if i == 0]
-    print(header)
+    for key in header:
+        for value in read:
+            subdata = {}
+            subdata.setdefault(key, value)
+    print(data)
