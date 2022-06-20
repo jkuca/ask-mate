@@ -10,13 +10,19 @@ def home():
 
 
 @app.route("/list")
-def question():
+def get_all_questions():
+
     _list = []
     with open('sample_data/question.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             _list.append(row)
-    return jsonify({"lista" : _list})
+
+    def sorting(element):
+        return element['submission_time']
+
+    _list.sort(key=sorting)
+    return jsonify({"list": _list})
 
 
 if __name__ == "__main__":
