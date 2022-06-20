@@ -9,7 +9,7 @@ def home():
     return render_template('home.html')
 
 
-@app.rout("/list")
+@app.route("/list")
 def question():
     _list = []
     with open('sample_data/question.csv', newline='') as csvfile:
