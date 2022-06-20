@@ -10,7 +10,7 @@ def home():
 
 
 @app.route("/list")
-def get_all_questions():
+def get_all_questions_sorted_by_submission_time():
 
     _list = []
     with open('sample_data/question.csv', newline='') as csvfile:
