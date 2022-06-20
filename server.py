@@ -12,9 +12,11 @@ def home():
 @app.rout("/list")
 def question():
     _list = []
-    with csv.open("/question.csv", "r", newline="") as file:
-        read = file.readlines()
-        header = read
+    with open('sample_data/question.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            _list.append(row)
+    return jsonify({"lista" : _list})
 
 
 if __name__ == "__main__":
