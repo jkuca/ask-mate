@@ -15,6 +15,13 @@ def get_all_questions_sorted_by_submission_time():
     return jsonify({"list": _list})
 
 
+@app.route('/question/<string:id>')
+def get_guestion_by_id(id):
+    data = data_manager.get_quetion_and_answers(id)
+
+    return jsonify({id: data})
+
+
 if __name__ == "__main__":
     app.run(
         debug=True,  # Allow verbose error reports
