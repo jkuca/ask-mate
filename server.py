@@ -1,7 +1,5 @@
-from flask import Flask, request, redirect, render_template, jsonify
-import csv
-import util
-import connection
+from flask import Flask, request, render_template, jsonify
+from sample_data import data_manager
 
 app = Flask(__name__)
 
@@ -13,17 +11,7 @@ def home():
 
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
-
-    _list = []
-    with open('sample_data/question.csv', newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            _list.append(row)
-
-    def sorting(element):
-        return element['submission_time']
-
-    _list.sort(key=sorting)
+    _list = data_manager.get_sorted_questions()
     return jsonify({"list": _list})
 
 
@@ -53,6 +41,12 @@ def add_question():
 
         return render_template('list.html', data=data, title=title, id=id)
     return render_template('add_question.html')
+
+@app.route('/question/<string:id>')
+def get_guestion_by_id(id):
+    data = data_manager.get_quetion_and_answers(id)
+
+    return jsonify({id: data})
 
 if __name__ == "__main__":
     app.run(
