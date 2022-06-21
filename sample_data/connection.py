@@ -18,7 +18,7 @@ def write_file(row, dierctory):
     with open(f'sample_data/{dierctory}', 'w', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
 
-    if row in reader:
+    if row['id'] in reader:
         for item in reader:
             if row['id'] == item['id']:
                 item = row

@@ -12,13 +12,12 @@ def home():
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
     _list = data_manager.get_sorted_questions()
-    return jsonify({"list": _list})
+    return jsonify({"questions": _list})
 
 
 @app.route('/question/<string:id>')
 def get_guestion_by_id(id):
     data = data_manager.get_quetion_and_answers(id)
-
     return jsonify({id: data})
 
 
