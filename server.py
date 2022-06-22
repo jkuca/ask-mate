@@ -1,5 +1,7 @@
-from flask import Flask, request, render_template, jsonify
-from sample_data import data_manager
+from flask import Flask, request, render_template, jsonify, redirect
+from sample_data import data_manager, connection
+
+import util
 
 app = Flask(__name__)
 
@@ -15,10 +17,21 @@ def get_all_questions_sorted_by_submission_time():
     return render_template('list.html', _list=_list)
 
 
-@app.route('/question/<string:id>')
-def get_guestion_by_id(id):
-    data = data_manager.get_quetion_and_answers(id)
-    return jsonify({id: data})
+@app.route("/question/<question_id>", methods=['POST', 'GET'])
+def get_question(question_id):
+    question_with_answer = data_manager.get_quetion_and_answers(question_id)
+
+    return render_template('display_question.html', data=question_with_answer)
+
+
+@app.route("/add_question", methods=['POST', 'GET'])
+def add_question():
+    if request.method == 'POST':
+        id = data_manager.add_new_question()
+        blink_url = "/question/" + str(id)
+        # return render_template('display_question.html', data=data, title=title, id=id)
+        return redirect(blink_url, 302)
+    return render_template('ask_question.html')
 
 
 if __name__ == "__main__":
