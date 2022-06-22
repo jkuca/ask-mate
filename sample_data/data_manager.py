@@ -45,7 +45,6 @@ def write_message(row):
     connection.write_file(row, "question.csv")
 
 
-
 def get_question_by_id(id):
     _list = connection.read_file("question.csv")
     for item in _list:
@@ -75,6 +74,6 @@ def add_new_question():
     # questions = connection.read_file('question.csv')
     data_to_save = {'id': id, 'submission_time': submission_time, 'view_number': view_number,
                     'vote_number': vote_number, 'title': title, 'message': message, "image": "image"}
-    print("################",type(data_to_save), "#####################")
+    print("################", type(data_to_save), "#####################")
     write_message(data_to_save)
     return id
