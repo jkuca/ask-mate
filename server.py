@@ -16,31 +16,31 @@ def get_all_questions_sorted_by_submission_time():
     return jsonify({"list": _list})
 
 
-@app.route('/question/<question_id>')
-def display_question():
+@app.route("/question/<question_id>", methods=['POST', 'GET'])
+def get_question(question_id):
+    question, answer = data_manager.get_answer_and_question(question_id)
+    return render_template('question.html', question=question, question_id=question_id, answer=answer)
 
-    header = ["Question Title", "Message"]
-    answers = 'ok'
-
-    return render_template('display_question.html', answers=answers, header=header)
 
 @app.route("/add_question", methods=['POST', 'GET'])
 def add_question():
     if request.method == 'POST':
         id = data_manager.generate_id()
         submission_time = util.get_time()
-        # view_number = request.form[]
-        # vote_number = request.form[]
+        view_number = 0
+        vote_number = 0
         title = request.form['title']
         message = request.form['message']
         # image = request.form[]
         questions = connection.read_file('question.csv')
-        data_to_save = [id,submission_time,"view_number","vote_number",title,message,"image"]
+        data_to_save = {'id': id, 'submission_time': submission_time, 'view_number': view_number,
+                        'vote_number': vote_number, 'title': title, 'message': message, "image": "image"}
         data_manager.write_message(data_to_save)
         data = connection.read_file('question.csv')
 
         return render_template('list.html', data=data, title=title, id=id)
     return render_template('ask_question.html')
+
 
 @app.route('/question/<string:id>')
 def get_guestion_by_id(id):
@@ -48,9 +48,9 @@ def get_guestion_by_id(id):
 
     return jsonify({id: data})
 
+
 if __name__ == "__main__":
     app.run(
         debug=True,  # Allow verbose error reports
         port=5000  # Set custom port
     )
-
