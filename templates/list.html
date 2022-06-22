@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}"> -->
+
+    <title>AskMate</title>
+</head>
+
+<body>
+
+    <div class="post__container">
+        <div class="post__header">
+            {% for element in _list %}
+            <p>{{element['title']}}</p>
+           
+        </div>
+        <div class="post__message">
+            {{element['message']}} 
+        </div>
+        <div class="post__left-box">
+           <span>
+                
+               {{element['vote_number']}} votes
+              
+            </span>
+           <span>
+                {{element['view_number']}} vievers
+                
+           </span>
+           <span>
+                {{element['id']}} id
+            {% endfor %}
+           </span>
+        </div>
+        
+    </div>
+     
+
+
+</body>
+
+</html>

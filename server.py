@@ -12,7 +12,7 @@ def home():
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
     _list = data_manager.get_sorted_questions()
-    return jsonify({"questions": _list})
+    return render_template('list.html', _list=_list)
 
 
 @app.route('/question/<string:id>')
