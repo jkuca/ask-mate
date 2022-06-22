@@ -1,4 +1,5 @@
 from sample_data import connection
+from flask import request
 
 
 def get_sorted_questions():
@@ -12,8 +13,11 @@ def get_sorted_questions():
     return _list
 
 
-def get_question_by_id(id):
+def write_message(row):
+    connection.write_file(row, "question.csv")
 
+
+def get_question_by_id(id):
     _list = connection.read_file("question.csv")
     for item in _list:
         if item['id'] == id:
@@ -30,3 +34,8 @@ def get_quetion_and_answers(id):
             list_of_answers.append(answer)
     question.setdefault("answers", list_of_answers)
     return question
+
+
+def get_edit_question(id_post):
+    data_of_question = get_question_by_id(id_post)
+    data_of_question["message"] = request.form.get("message")

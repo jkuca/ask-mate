@@ -24,10 +24,9 @@ def get_guestion_by_id(id):
 @app.route("/question/<string:id_post>/edit", methods=["POST", "GET"])
 def edit_question(id_post):
     if request.form == "POST":
+        data_of_question = data_manager.get_edit_question(id_post)
+    else:
         data_of_question = data_manager.get_question_by_id(id_post)
-        data_of_question["message"] = request.form.get("message")
-
-
     return render_template("edit.html", data=data_of_question)
 
 
