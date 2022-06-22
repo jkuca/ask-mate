@@ -23,15 +23,13 @@ def get_guestion_by_id(id):
 
 @app.route("/question/<string:id_post>/edit", methods=["POST", "GET"])
 def edit_question(id_post):
+    if request.form == "POST":
+        data_of_question = data_manager.get_question_by_id(id_post)
+        data_of_question["message"] = request.form.get("message")
 
-    if request.form.get("message"):
-        new_message = request.form.get("message")
 
-        data = data_manager.get_message_the_right_question(
-            id_post, new_message)
-        print(data)
-        return jsonify({new_message: data})
-    return render_template("edit.html")
+    return render_template("edit.html", data=data_of_question)
+
 
 if __name__ == "__main__":
     app.run(
