@@ -45,24 +45,6 @@ def write_message(row):
     connection.write_file(row, "question.csv")
 
 
-def get_question_by_id(id):
-    _list = connection.read_file("question.csv")
-    for item in _list:
-        if item['id'] == id:
-            return item
-
-
-def get_quetion_and_answers(id):
-    question_with_answer = get_question_by_id(id)
-    list_of_answers = []
-    answers = connection.read_file('answer.csv')
-    for answer in answers:
-        if answer["question_id"] == id:
-            list_of_answers.append(answer)
-    question_with_answer.setdefault("answers", list_of_answers)
-    return question_with_answer
-
-
 def add_new_question():
     id = generate_id()
     submission_time = util.get_time()
