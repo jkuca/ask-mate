@@ -17,10 +17,9 @@ def get_all_questions_sorted_by_submission_time():
     return render_template('list.html', _list=_list)
 
 
-@app.route("/question/<question_id>", methods=['POST', 'GET'])
+@app.route("/question/<question_id>")
 def get_question(question_id):
     question_with_answer = data_manager.get_quetion_and_answers(question_id)
-
     return render_template('display_question.html', data=question_with_answer)
 
 
