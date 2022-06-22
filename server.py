@@ -14,14 +14,14 @@ def home():
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
     _list = data_manager.get_sorted_questions()
-    return jsonify({"list": _list})
+    return render_template('list.html', _list=_list)
 
 
 @app.route("/question/<question_id>", methods=['POST', 'GET'])
 def get_question(question_id):
     question_with_answer = data_manager.get_quetion_and_answers(question_id)
-    
-    return render_template('display_question.html', data = question_with_answer)
+
+    return render_template('display_question.html', data=question_with_answer)
 
 
 @app.route("/add_question", methods=['POST', 'GET'])
