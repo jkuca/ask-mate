@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, redirect
+from flask import Flask, request, render_template, jsonify, redirect, url_for
 from sample_data import data_manager, connection
 
 import util
@@ -19,8 +19,8 @@ def get_all_questions_sorted_by_submission_time():
 
 @app.route("/question/<question_id>")
 def get_question(question_id):
-    question_with_answer = data_manager.get_quetion_and_answers(question_id)
-    return render_template('display_question.html', data=question_with_answer)
+        question_with_answer = data_manager.get_quetion_and_answers(question_id)
+        return render_template('display_question.html', data=question_with_answer)
 
 
 @app.route("/add_question", methods=['POST', 'GET'])
