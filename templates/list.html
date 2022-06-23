@@ -13,8 +13,10 @@
 {% for element in _list %}
     <div class="post__container">
         <div class="post__header">
-           
-            <p>{{element['title']}}</p>         
+            <span>
+                ID{{element['id']}} 
+            </span>
+            <span>{{element['title']}}</span>         
         </div>
         <div class="post__message">
             {{element['message']}}
@@ -26,13 +28,10 @@
            <span>
                 {{element['view_number']}} vievers  
            </span>
-           <span>
-                {{element['id']}} id
-            
-           </span>
+         
         </div>
         <div class="post__btn-container">
-    <a href="/question/{{element['id']}}"> <button class="btn__question">edit question {{element['id']}}</button></a>
+    <a href="/question/{{element['id']}}"> <button class="btn__question">go to question</button></a>
     </div>
     </div>
 {% endfor %}
