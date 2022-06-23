@@ -41,7 +41,6 @@ def get_edit_question(id_post):
     data_of_question["message"] = request.form.get("message")
     data_of_question["title"] = request.form.get('title')
     write_message(data_of_question)
-    return data_of_question
 
 
 def generate_id():

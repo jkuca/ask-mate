@@ -37,7 +37,8 @@ def add_question():
 def edit_question(id_post):
     url = f"/question/{id_post}"
     if request.form == "POST":
-        data_of_question = data_manager.get_edit_question(id_post)
+        data_manager.get_edit_question(id_post)
+        return redirect(url)
     else:
         data_of_question = data_manager.get_question_by_id(id_post)
     return render_template("edit.html", data = data_of_question)
