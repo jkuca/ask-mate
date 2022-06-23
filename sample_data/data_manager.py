@@ -1,5 +1,6 @@
 from sample_data import connection
 from flask import request
+import util
 
 
 def get_sorted_questions():
@@ -39,3 +40,30 @@ def get_quetion_and_answers(id):
 def get_edit_question(id_post):
     data_of_question = get_question_by_id(id_post)
     data_of_question["message"] = request.form.get("message")
+
+
+def generate_id():
+
+    _list = connection.read_file("question.csv")
+    generated_id = len(_list)+1
+    return generated_id
+
+
+def write_message(row):
+    connection.write_file(row, "question.csv")
+
+
+def add_new_question():
+    id = generate_id()
+    submission_time = util.get_time()
+    view_number = 0
+    vote_number = 0
+    title = request.form.get('title')
+    message = request.form.get('message')
+    # image = request.form[]
+    # questions = connection.read_file('question.csv')
+    data_to_save = {'id': id, 'submission_time': submission_time, 'view_number': view_number,
+                    'vote_number': vote_number, 'title': title, 'message': message, "image": "image"}
+    print("################", type(data_to_save), "#####################")
+    write_message(data_to_save)
+    return id

@@ -258,3 +258,34 @@ body {
     top: 0;
     transform: rotate(-135deg);
 }
+
+.post__container{
+    width: 75%;
+        margin: 0 auto;
+        box-shadow: 0 3rem 6rem rgba(0, 0, 0, 0.1);
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 3px;
+        padding: 2rem;
+        padding-left: 9rem;
+        font-size: 1rem;
+    }
+
+
+.btn__question,
+.btn__question:link,
+.btn__question:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    display: inline-block;
+    border-radius: 3rem;
+    position: relative;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer
+}
+
+.post__btn-container{
+    text-align: center
+}
+
