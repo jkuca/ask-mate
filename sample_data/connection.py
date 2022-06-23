@@ -12,7 +12,6 @@ def read_file(directory):
                 _list.append(row)
     except(ValueError):
         print(ValueError)
-
     return _list
 
 

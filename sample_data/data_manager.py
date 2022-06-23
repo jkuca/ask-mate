@@ -14,8 +14,11 @@ def get_sorted_questions():
     return _list
 
 
-def get_question_by_id(id):
+def write_message(row):
+    connection.write_file(row, "question.csv")
 
+
+def get_question_by_id(id):
     _list = connection.read_file("question.csv")
     for item in _list:
         if item['id'] == id:
@@ -23,7 +26,6 @@ def get_question_by_id(id):
 
 
 def get_quetion_and_answers(id):
-
     question = get_question_by_id(id)
     list_of_answers = []
     answers = connection.read_file('answer.csv')
@@ -34,8 +36,14 @@ def get_quetion_and_answers(id):
     return question
 
 
-def generate_id():
+def get_edit_question(id_post):
+    data_of_question = get_question_by_id(id_post)
+    data_of_question["message"] = request.form.get("message")
+    data_of_question["title"] = request.form.get('title')
+    write_message(data_of_question)
 
+
+def generate_id():
     _list = connection.read_file("question.csv")
     generated_id = len(_list)+1
     return generated_id
