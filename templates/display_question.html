@@ -6,8 +6,25 @@
     <title>AskMate</title>
 </head>
 
-<body>
+    title:<br>  
+     {{data["title"]}}<br><br>
 
-</body>
+    question:<br>
+    {{data["message"]}}
+    {{data["image"]}}<br><br>
+    views:<br>  
+    {{data["view_number"]}}<br><br>
+    votes:<br>  
+    {{data["vote_number"]}}<br><br>
+    submission times:<br>  
+    {{data["submission_time"]}}<br><br>
+    answers:<br>
+    <ul>
+        {% for ans in data["answers"] %}
+            <li>{{ ans }} </li>
+        {% endfor %}
+    </ul>
 
+
+    
 </html>
