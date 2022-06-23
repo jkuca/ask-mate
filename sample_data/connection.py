@@ -12,7 +12,6 @@ def read_file(directory):
                 _list.append(row)
     except(ValueError):
         print(ValueError)
-
     return _list
 
 
@@ -36,7 +35,6 @@ def write_file(row, directory):
                 item = row
             writer.writerow(item)
 
-        writer.writerow(row)
     shutil.move(tempfile.name, f'sample_data/{directory}')
 
 

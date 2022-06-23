@@ -5,12 +5,13 @@
     <title>AskMate</title>
 </head>
 <body>
-    <form action="/question/<string:id>/edit" method="POST">
+    <form action="/question/{{ data["id"] }}/edit" method="POST">
         <label for="title">Tittle:</label>
-        <input type="text"  name="title" size="15" placeholder="{{ data["title"] }}" />
-        <label for="message">Question</label>
-        Message: <input type="text" name="message" size="15" value="{{ data["message"] }}" />
-        <input type="submit" value="Save changes" />
+        <textarea name="title" rows="1" cols="85">{{ data["title"] }}</textarea><br>
+        <label for="message">Question:</label>
+        <textarea name="message" rows="4" cols="85">{{ data["message"] }}</textarea><br>
+        <input type="submit" value="submit" />
     </form>
+    <a href="/"> <button class="btn__question">Main page</button></a>
 </body>
 </html>

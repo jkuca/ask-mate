@@ -27,19 +27,20 @@ def get_question(question_id):
 def add_question():
     if request.method == 'POST':
         id = data_manager.add_new_question()
-        blink_url = "/question/" + str(id)
+        url = "/question/" + str(id)
         # return render_template('display_question.html', data=data, title=title, id=id)
-        return redirect(blink_url, 302)
+        return redirect(url, 302)
     return render_template('ask_question.html')
 
 
 @app.route("/question/<string:id_post>/edit", methods=["POST", "GET"])
 def edit_question(id_post):
+    url = f"/question/{id_post}"
     if request.form == "POST":
         data_of_question = data_manager.get_edit_question(id_post)
     else:
         data_of_question = data_manager.get_question_by_id(id_post)
-    return render_template("edit.html", data=data_of_question)
+    return render_template("edit.html", data = data_of_question)
 
 
 if __name__ == "__main__":
