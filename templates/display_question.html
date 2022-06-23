@@ -6,8 +6,39 @@
     <title>AskMate</title>
 </head>
 
-<body>
-
+<body>  
+    <div class="question__container">
+       <div class="">
+        {{data['title']}}
+       </div>
+       <div class="">
+        {{data['message']}}
+       </div>
+       {% if data['image'] %}
+       <div class="">
+        {{data['image']}}
+       </div>
+       {% endif%}
+       <div class="">
+        <span class="">view: {{data['view_number']}}</span>
+        <span class="">votes: {{data['vote_number']}}</span>
+       </div>
+    </div>
+    <div class="answers__container">
+        {% for item in data['answers'] %}
+        <div class="answers__container-answer">
+            <div class="">
+                {{item['message']}}
+                {% if item['image'] %}
+                    {{item['image']}}
+                {% endif %}
+            </div>
+            <div class=""> 
+                {{item["vote_number"]}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 
 </html>
