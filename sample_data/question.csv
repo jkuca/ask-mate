@@ -1,12 +1,7 @@
-id,submission_time,view_number,vote_number,title,message,image
-
-1,1493368154,29,7,How to make lists in Python?,"I am totally new to this, any hints?",
-
-2,1493068124,15,9,Wordpress loading multiple jQuery Versions,I developed a plugin that uses the jquery booklet plugin (http://builtbywill.com/booklet/#/) this plugin binds a function to $ so I cann call $('.myBook').booklet();,
-
-3,02:55,0,0,asd,asd,image
-
-4,1656039263.1377559,0,0,,asf,image
-
-5,1656039281.8036978,0,0,,dsfsd,image
-
+id,submission_time,view_number,vote_number,title,message,image
+1,1493368154,36,7,How to make lists in Python?,"I am totally new to this, any hints?",
+4,1656039263.1377559,2,0,,asf,image
+5,1656039281.8036978,3,0,,dsfsd,image
+5,1656039281.8036978,3,0,,dsfsd,image
+5,1656039281.8036978,3,0,,dsfsd,image
+6,1656057294.4785018,1,0,google not working ,connect intenet,

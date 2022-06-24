@@ -64,7 +64,6 @@ def add_new_question():
     message = request.form.get('message')
     data_to_save = {'id': id, 'submission_time': submission_time, 'view_number': view_number,
                     'vote_number': vote_number, 'title': title, 'message': message, "image": ""}
-    print("################", type(data_to_save), "#####################")
     write_message_new(data_to_save)
     return id
 
