@@ -20,25 +20,8 @@ def get_all_questions_sorted_by_submission_time():
 @app.route("/question/<question_id>", methods=['POST', 'GET'])
 def get_question(question_id):
     question_with_answer = data_manager.get_quetion_and_answers(question_id)
+    data_manager.count_visits(question_id)
     return render_template('display_question.html', data=question_with_answer)
-
-
-def update_viewers():
-    pass
-
-
-def update_votes():
-    pass
-
-
-@app.route("/add_question", methods=['POST', 'GET'])
-def add_question():
-    if request.method == 'POST':
-        id = data_manager.add_new_question()
-        blink_url = "/question/" + str(id)
-        # return render_template('display_question.html', data=data, title=title, id=id)
-        return redirect(blink_url, 302)
-    return render_template('ask_question.html')
 
 
 @app.route("/question/<string:id_post>/new-answer", methods=['POST', 'GET'])
@@ -61,6 +44,55 @@ def edit_question(id_post):
     else:
         data_of_question = data_manager.get_question_by_id(id_post)
     return render_template("edit.html", data=data_of_question)
+
+
+@app.route("/add_question", methods=['POST', 'GET'])
+def add_question():
+    if request.method == 'POST':
+        id = data_manager.add_new_question()
+        blink_url = "/question/" + str(id)
+        # return render_template('display_question.html', data=data, title=title, id=id)
+        return redirect(blink_url, 302)
+    return render_template('ask_question.html')
+
+
+@app.route("/question/<string:id_post>/delete")
+def delete_question(id_post):
+    data_manager.delete_row(id_post)
+    return redirect('/list')
+
+
+@app.route("/question/<string:id_post>/vote-up")
+def vote_question_up(id_post):
+    id = data_manager.get_question_by_id(id_post)
+    id = id['id']
+    data_manager.count_votes_up(id_post)
+    blink_url = "/question/" + str(id)
+    return redirect(blink_url, 302)
+
+
+@app.route("/question/<string:id_post>/vote-down")
+def vote_question_down(id_post):
+    id = data_manager.get_question_by_id(id_post)
+    id = id['id']
+    data_manager.count_votes_down(id_post)
+    blink_url = "/question/" + str(id)
+    return redirect(blink_url, 302)
+
+
+@app.route("/answer/<answer_id>/delete")
+def delete_answer():
+    pass
+
+
+@app.route("/answer/<answer_id>/vote-up")
+def vote_answer_up():
+    pass
+
+
+@app.route("/answer/<answer_id>/vote-down")
+def vote_answer_down():
+    pass
 
 
 if __name__ == "__main__":

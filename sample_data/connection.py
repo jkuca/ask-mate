@@ -22,7 +22,7 @@ def read_header(directory):
     return header
 
 
-def write_file(row, directory):
+def update_file(row, directory):
     header = read_header(directory)
     tempfile = NamedTemporaryFile(mode='w', delete=False)
     with open(f'sample_data/{directory}', 'r+', newline='', encoding="utf-8-sig") as csvfile, tempfile:
@@ -31,8 +31,7 @@ def write_file(row, directory):
             tempfile, fieldnames=header)
         for item in reader:
             if row['id'] == item['id']:
-                item['title'] = row['title']
-                item['message'] = row['message']
+                item = row
             writer.writerow(item)
 
     shutil.move(tempfile.name, f'sample_data/{directory}')

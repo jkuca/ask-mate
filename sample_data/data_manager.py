@@ -81,3 +81,30 @@ def add_new_answer(question_id):
     data_to_save = {'id': id, 'submission_time': submission_time,
                     'vote_number': vote_number, 'question_id': question_id, 'message': message, "image": ""}
     write_answer_new(data_to_save)
+
+
+def count_visits(id):
+    data_of_question = get_question_by_id(id)
+    data_of_question['view_number'] = int(data_of_question['view_number']) + 1
+    write_message_update(data_of_question)
+
+
+def delete_row(id):
+    connection.delete_row({'id': id}, 'question.csv')
+
+
+def get_votes(id):
+    data_of_question = get_question_by_id(id)
+    return int(data_of_question['vote_number'])
+
+
+def count_votes_up(id):
+    data_of_question = get_question_by_id(id)
+    data_of_question['vote_number'] = get_votes(id) + 1
+    write_message_update(data_of_question)
+
+
+def count_votes_down(id):
+    data_of_question = get_question_by_id(id)
+    data_of_question['vote_number'] = get_votes(id) - 1
+    write_message_update(data_of_question)
