@@ -31,8 +31,7 @@ def write_file(row, directory):
             tempfile, fieldnames=header)
         for item in reader:
             if row['id'] == item['id']:
-                print('im in')
-                item['id'] = row['id']
+                item['title'] = row['title']
                 item['message'] = row['message']
             writer.writerow(item)
 

@@ -17,7 +17,7 @@ def get_all_questions_sorted_by_submission_time():
     return render_template('list.html', _list=_list)
 
 
-@app.route("/question/<question_id>")
+@app.route("/question/<question_id>", methods=['POST', 'GET'])
 def get_question(question_id):
     question_with_answer = data_manager.get_quetion_and_answers(question_id)
     return render_template('display_question.html', data=question_with_answer)
@@ -39,6 +39,17 @@ def add_question():
         # return render_template('display_question.html', data=data, title=title, id=id)
         return redirect(blink_url, 302)
     return render_template('ask_question.html')
+
+
+@app.route("/question/<string:id_post>/new-answer", methods=['POST', 'GET'])
+def add_answer(id_post):
+    id = data_manager.get_question_by_id(id_post)
+    id = id['id']
+    if request.method == 'POST':
+        data_manager.add_new_answer(id_post)
+        blink_url = "/question/" + str(id)
+        return redirect(blink_url, 302)
+    return render_template('add_answer.html', data=id)
 
 
 @app.route("/question/<string:id_post>/edit", methods=["POST", "GET"])

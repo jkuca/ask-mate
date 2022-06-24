@@ -5,7 +5,7 @@
     <title>AskMate</title>
 </head>
 <body>
-    <form action="/question/{{ data["id"] }}" method="POST">
+    <form action="/question/{{ data }}/edit" method="POST">
         <label for="title">Tittle:</label>
         <textarea name="title" rows="1" cols="85">{{ data["title"] }}</textarea><br>
         <label for="message">Question:</label>
