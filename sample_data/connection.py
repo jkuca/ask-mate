@@ -39,6 +39,20 @@ def write_file(row, directory):
     shutil.move(tempfile.name, f'sample_data/{directory}')
 
 
+def add_new_row(row, directory):
+    header = read_header(directory)
+    tempfile = NamedTemporaryFile(mode='w', delete=False)
+    with open(f'sample_data/{directory}', 'r+', newline='', encoding="utf-8-sig") as csvfile, tempfile:
+        reader = csv.DictReader(csvfile, fieldnames=header)
+        writer = csv.DictWriter(
+            tempfile, fieldnames=header)
+        for item in reader:
+            writer.writerow(item)
+        writer.writerow(row)
+
+    shutil.move(tempfile.name, f'sample_data/{directory}')
+
+
 def delete_row(row, directory):
     header = read_header(directory)
     tempfile = NamedTemporaryFile(mode='w', delete=False)
@@ -52,7 +66,3 @@ def delete_row(row, directory):
                 writer.writerow(item)
 
     shutil.move(tempfile.name, f'sample_data/{directory}')
-
-
-write_file({'id': '3', 'submission_time': 123123124, 'view_number': 1, 'vote_number': 1, 'title': 'dasda', 'message': 'asdasda', 'image': None
-            }, 'question.csv')
