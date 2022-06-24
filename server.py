@@ -1,5 +1,5 @@
-from flask import Flask, request, render_template, jsonify, redirect, url_for
-from sample_data import data_manager, connection
+from flask import Flask, request, render_template, jsonify, redirect
+from sample_data import data_manager
 
 import util
 
@@ -19,17 +19,25 @@ def get_all_questions_sorted_by_submission_time():
 
 @app.route("/question/<question_id>")
 def get_question(question_id):
-        question_with_answer = data_manager.get_quetion_and_answers(question_id)
-        return render_template('display_question.html', data=question_with_answer)
+    question_with_answer = data_manager.get_quetion_and_answers(question_id)
+    return render_template('display_question.html', data=question_with_answer)
+
+
+def update_viewers():
+    pass
+
+
+def update_votes():
+    pass
 
 
 @app.route("/add_question", methods=['POST', 'GET'])
 def add_question():
     if request.method == 'POST':
         id = data_manager.add_new_question()
-        url = "/question/" + str(id)
+        blink_url = "/question/" + str(id)
         # return render_template('display_question.html', data=data, title=title, id=id)
-        return redirect(url, 302)
+        return redirect(blink_url, 302)
     return render_template('ask_question.html')
 
 
@@ -41,7 +49,7 @@ def edit_question(id_post):
         return redirect(url)
     else:
         data_of_question = data_manager.get_question_by_id(id_post)
-    return render_template("edit.html", data = data_of_question)
+    return render_template("edit.html", data=data_of_question)
 
 
 if __name__ == "__main__":

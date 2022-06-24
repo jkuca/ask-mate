@@ -24,7 +24,7 @@
         <span class="">votes: {{data['vote_number']}}</span>
        </div>
         <a href="/question/{{data['id']}}/edit"> <button class="btn__question">edit question ID: {{data['id']}}</button></a><br>
-        <a href="/question"> <button class="btn__question">Back to list</button></a>
+        
     <div class="answers__container">
         {% for item in data['answers'] %}
         <div class="answers__container-answer">

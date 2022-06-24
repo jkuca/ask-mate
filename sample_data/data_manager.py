@@ -50,7 +50,7 @@ def generate_id():
 
 
 def write_message(row):
-    connection.write_file(row, "question.csv")
+    connection.add_new_row(row, "question.csv")
 
 
 def add_new_question():
@@ -60,8 +60,6 @@ def add_new_question():
     vote_number = 0
     title = request.form.get('title')
     message = request.form.get('message')
-    # image = request.form[]
-    # questions = connection.read_file('question.csv')
     data_to_save = {'id': id, 'submission_time': submission_time, 'view_number': view_number,
                     'vote_number': vote_number, 'title': title, 'message': message, "image": "image"}
     print("################", type(data_to_save), "#####################")
