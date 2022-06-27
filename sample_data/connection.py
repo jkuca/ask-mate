@@ -64,3 +64,11 @@ def delete_row(row, directory):
                 writer.writerow(item)
 
     shutil.move(tempfile.name, f'sample_data/{directory}')
+
+
+def get_row(directory):
+    keys = read_header(directory)
+    row = {}
+    for key in keys:
+        row.setdefault(key, 0)
+    return row
