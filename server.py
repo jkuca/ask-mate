@@ -1,8 +1,6 @@
 from flask import Flask, request, render_template, jsonify, redirect
 from sample_data import data_manager
 
-import util
-
 app = Flask(__name__)
 
 
@@ -13,15 +11,15 @@ def home():
 
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
-    _list = data_manager.get_sorted_questions()
-    return render_template('list.html', _list=_list)
+    questions = data_manager.get_sorted_questions()
+    return render_template('list.html', questions=questions)
 
 
-@app.route("/question/<question_id>", methods=['POST', 'GET'])
+@app.route("/question/<question_id>")
 def get_question(question_id):
-    question_with_answer = data_manager.get_quetion_and_answers(question_id)
+    question_with_answers = data_manager.get_quetion_and_answers(question_id)
     data_manager.count_visits(question_id)
-    return render_template('display_question.html', data=question_with_answer)
+    return render_template('display_question.html', data=question_with_answers)
 
 
 @app.route("/question/<string:id_post>/new-answer", methods=['POST', 'GET'])
@@ -49,9 +47,10 @@ def edit_question(id_post):
 @app.route("/add_question", methods=['POST', 'GET'])
 def add_question():
     if request.method == 'POST':
-        id = data_manager.add_new_question()
+        title = request.form.get('title')
+        message = request.form.get('message')
+        id = data_manager.add_new_question(title, message)
         blink_url = "/question/" + str(id)
-        # return render_template('display_question.html', data=data, title=title, id=id)
         return redirect(blink_url, 302)
     return render_template('ask_question.html')
 
@@ -64,19 +63,15 @@ def delete_question(id_post):
 
 @app.route("/question/<string:id_post>/vote-up")
 def vote_question_up(id_post):
-    id = data_manager.get_question_by_id(id_post)
-    id = id['id']
     data_manager.count_votes_up(id_post)
-    blink_url = "/question/" + str(id)
+    blink_url = "/question/" + str(id_post)
     return redirect(blink_url, 302)
 
 
 @app.route("/question/<string:id_post>/vote-down")
 def vote_question_down(id_post):
-    id = data_manager.get_question_by_id(id_post)
-    id = id['id']
     data_manager.count_votes_down(id_post)
-    blink_url = "/question/" + str(id)
+    blink_url = "/question/" + str(id_post)
     return redirect(blink_url, 302)
 
 

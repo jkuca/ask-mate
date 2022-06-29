@@ -3,20 +3,20 @@ from flask import request
 import util
 
 
+def sorting(element):
+    return element['submission_time']
+
+
 def get_sorted_questions():
-
     _list = connection.read_file("question.csv")
-
-    def sorting(element):
-        return element['submission_time']
 
     _list.sort(key=sorting)
     return _list
 
 
 def get_question_by_id(id):
-    _list = connection.read_file("question.csv")
-    for item in _list:
+    question = connection.read_file("question.csv")
+    for item in question:
         if item['id'] == id:
             return item
 
@@ -51,25 +51,19 @@ def generate_id(file):
     return generated_id
 
 
-def write_message_new(row):
-    connection.add_new_row(row, "question.csv")
+def write_rew_row(row, directory):
+    connection.add_new_row(row, directory)
 
 
-def add_new_question():
+def add_new_question(title, message):
     id = generate_id("question.csv")
     submission_time = util.get_time()
     view_number = 0
     vote_number = 0
-    title = request.form.get('title')
-    message = request.form.get('message')
     data_to_save = {'id': id, 'submission_time': submission_time, 'view_number': view_number,
                     'vote_number': vote_number, 'title': title, 'message': message, "image": ""}
-    write_message_new(data_to_save)
+    write_rew_row(data_to_save, "question.csv")
     return id
-
-
-def write_answer_new(row):
-    connection.add_new_row(row, "answer.csv")
 
 
 def add_new_answer(question_id):
@@ -79,7 +73,7 @@ def add_new_answer(question_id):
     message = request.form.get('message')
     data_to_save = {'id': id, 'submission_time': submission_time,
                     'vote_number': vote_number, 'question_id': question_id, 'message': message, "image": ""}
-    write_answer_new(data_to_save)
+    write_rew_row(data_to_save, "answer.csv")
 
 
 def count_visits(id):
