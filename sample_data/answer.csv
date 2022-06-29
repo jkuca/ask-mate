@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 id,submission_time,vote_number,question_id,message,image
 
 1,1493398154,4,1,You need to use brackets: my_list = [],
@@ -6,3 +7,19 @@ id,submission_time,vote_number,question_id,message,image
 
 
 
+=======
+id,submission_time,vote_number,question_id,message,image
+1,1493398154,4,1,You need to use brackets: my_list = [],
+2,1493088154,35,1,Look it up in the Python docs,
+3,1656053688.3093255,0,2,seg,
+4,1656055823.4940484,0,3,das,
+5,1656055866.2229133,0,3,asdasdasd,
+6,1656055868.8833065,0,3,asdasd,
+7,1656057247.3928406,0,2,find in google,
+8,1656321791.734805,0,<built-in function id>,aaaaaa,0
+9,1656322259.073473,0,9,dsfsaf,0
+10,1656324024.5029495,0,6,aferfrf,0
+11,1656324289.714726,0,6,ded,0
+12,1656325228.9893916,0,8,gtrgtg,0
+13,1656325441.2672307,0,8,dcd,0
+>>>>>>> a8c261a8d09fe665bfeb4604573a9d04f56b0c79

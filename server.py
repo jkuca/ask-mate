@@ -17,27 +17,28 @@ def get_all_questions_sorted_by_submission_time():
 
 @app.route("/question/<question_id>")
 def get_question(question_id):
-    question_with_answers = data_manager.get_quetion_and_answers(question_id)
+    question, answers = data_manager.get_quetion_and_answers(question_id)
     data_manager.count_visits(question_id)
-    return render_template('display_question.html', data=question_with_answers)
+    return render_template('display_question.html', data=question, answers=answers)
 
 
 @app.route("/question/<string:id_post>/new-answer", methods=['POST', 'GET'])
 def add_answer(id_post):
-    id = data_manager.get_question_by_id(id_post)
-    id = id['id']
     if request.method == 'POST':
-        data_manager.add_new_answer(id_post)
-        blink_url = "/question/" + str(id)
+        message = request.form.get('message')
+        data_manager.add_new_answer(id_post, message)
+        blink_url = "/question/" + str(id_post)
         return redirect(blink_url, 302)
-    return render_template('add_answer.html', data=id)
+    return render_template('add_answer.html', data=id_post)
 
 
 @app.route("/question/<string:id_post>/edit", methods=["POST", "GET"])
 def edit_question(id_post):
     url = f"/question/{id_post}"
     if request.form == "POST":
-        data_manager.get_edit_question(id_post)
+        message = request.form.get("message")
+        title = request.form.get('title')
+        data_manager.get_edit_question(id_post, title, message)
         return redirect(url)
     else:
         data_of_question = data_manager.get_question_by_id(id_post)
@@ -57,7 +58,7 @@ def add_question():
 
 @app.route("/question/<string:id_post>/delete")
 def delete_question(id_post):
-    data_manager.delete_row(id_post)
+    data_manager.delete_row(id_post, 'question.csv')
     return redirect('/list')
 
 
@@ -75,9 +76,10 @@ def vote_question_down(id_post):
     return redirect(blink_url, 302)
 
 
-@app.route("/answer/<answer_id>/delete")
-def delete_answer():
-    pass
+@app.route("/answer/<string:id_answer>/delete")
+def delete_answer(id_answer):
+    data_manager.delete_row(id_answer, 'answer.csv')
+    return redirect('/list')
 
 
 @app.route("/answer/<answer_id>/vote-up")

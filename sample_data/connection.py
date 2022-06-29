@@ -20,10 +20,6 @@ def read_header(directory):
     return header
 
 
-def get_default_row(directory):
-    header
-
-
 def update_file(row, directory):
     header = read_header(directory)
     tempfile = NamedTemporaryFile(mode='w', delete=False)
@@ -66,3 +62,11 @@ def delete_row(row, directory):
                 writer.writerow(item)
 
     shutil.move(tempfile.name, f'sample_data/{directory}')
+
+
+def get_row(directory):
+    keys = read_header(directory)
+    row = {}
+    for key in keys:
+        row.setdefault(key, 0)
+    return row
