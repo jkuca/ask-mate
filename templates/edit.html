@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AskMate</title>
+</head>
+<body>
+    <form action="/question/{{ data['id'] }}" method="POST">
+        <label for="title">Tittle:</label>
+        <textarea name="title" rows="1" cols="85">{{ data["title"] }}</textarea><br>
+        <label for="message">Question:</label>
+        <textarea name="message" rows="4" cols="85">{{ data["message"] }}</textarea><br>
+        <input type="submit" value="submit" />
+    </form>
+    <a href="/"> <button class="btn_question">Main page</button></a>
+</body>
+</html>

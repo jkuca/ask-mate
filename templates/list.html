@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+
+    <title>AskMate</title>
+</head>
+
+<body>
+{% for element in questions %}
+    <div class="sorting_container">
+    </div>
+    <div class="post__container">
+        <div class="post__header">
+            <span>
+                ID{{element['id']}} 
+            </span>
+            <span>{{element['title']}}</span>         
+        </div>
+        <div class="post__message">
+            {{element['message']}}
+        </div>
+        <div class="post__left-box">
+           <span>               
+               {{element['vote_number']}} votes             
+            </span>
+           <span>
+                {{element['view_number']}} vievers  
+           </span>
+         
+        </div>
+        <div class="post__btn-container">
+    <a href="/question/{{element['id']}}"> <button class="btn__question">go to question</button></a>
+    </div>
+    </div>
+{% endfor %}
+        <a href="/add_question"> <button class="btn__question">add question</button></a>
+
+</body>
+
+</html>
