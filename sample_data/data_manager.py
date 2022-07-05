@@ -1,16 +1,29 @@
-from sample_data import connection
-import util
+from typing import List, Dict
+
+from psycopg2 import sql
+from psycopg2.extras import RealDictCursor
+
+import database_common
+from typing import List, Dict
+
+from psycopg2 import sql
+from psycopg2.extras import RealDictCursor
+
+import database_common
 
 
-def sorting(element):
-    return element['submission_time']
+@database_common.connection_handler
+def get_sorted_questions(cursor):
+    query = """
+        SELECT *
+        FROM question
+        ORDER BY id"""
+    cursor.execute(query)
+    return cursor.fetchall()
+    # questions = connection.read_file("question.csv")
+    # questions.sort(key=sorting)
+    # return questions
 
-
-def get_sorted_questions():
-
-    questions = connection.read_file("question.csv")
-    questions.sort(key=sorting)
-    return questions
 
 
 def get_question_by_id(id):
@@ -52,6 +65,7 @@ def generate_id(file):
     data = connection.read_file(file)
     generated_id = int(data[-1]['id'])+1
     return generated_id
+
 
 
 def write_new_row(row, directory):
