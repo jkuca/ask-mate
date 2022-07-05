@@ -91,6 +91,11 @@ def vote_answer_up():
 def vote_answer_down():
     pass
 
+@app.route('/search')
+def search_result():
+    search_phrase = request.args.get('search_phrase')
+    questions = data_manager.search_questions(search_phrase)
+    return render_template('search.html', search_phrase=search_phrase, questions=questions)
 
 if __name__ == "__main__":
     app.run(
