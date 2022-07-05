@@ -108,8 +108,12 @@ def count_visits(id):
     write_message_update(data_of_question)
 
 
-def delete_row(id, directory):
-    connection.delete_row({'id': id}, directory)
+def delete_row(id):
+    query = f"""
+                        DELETE FROM question                 
+                        WHERE id = %(id)s
+                        """
+    cursor.execute(query, {"id": id})
 
 
 def get_votes(data_of_question):
