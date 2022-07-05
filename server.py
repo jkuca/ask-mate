@@ -12,6 +12,7 @@ def home():
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
     questions = data_manager.get_sorted_questions()
+    print(questions)
     return render_template('list.html', questions=questions)
 
 
@@ -34,15 +35,31 @@ def add_answer(id_post):
 
 @app.route("/question/<string:id_post>/edit", methods=["POST", "GET"])
 def edit_question(id_post):
-    url = f"/question/{id_post}"
-    if request.form == "POST":
+    url = "/question/" + str(id_post)
+    if request.method == "POST":
+        def convert_apostrophe(message):
+            new_message = message.replace("'", "''")
+            return new_message
+
         message = request.form.get("message")
         title = request.form.get('title')
-        data_manager.get_edit_question(id_post, title, message)
+
+        c_message = convert_apostrophe(message)
+        c_title = convert_apostrophe(title)
+
+        print(f"ID: {id_post}")
+
+        data_manager.get_edit_question_message(id_post, c_message)
+        if len(title) > 0:
+            data_manager.get_edit_question_title(id_post, c_title)
+
         return redirect(url)
+
     else:
         data_of_question = data_manager.get_question_by_id(id_post)
-    return render_template("edit.html", data=data_of_question)
+        print(data_of_question)
+
+    return render_template("edit.html", data=data_of_question[0])
 
 
 @app.route("/add_question", methods=['POST', 'GET'])

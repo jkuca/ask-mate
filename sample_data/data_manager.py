@@ -26,8 +26,8 @@ def get_sorted_questions(cursor):
 
 
 @database_common.connection_handler
-def get_question_by_id(id):
-    query = """
+def get_question_by_id(cursor, id):
+    query = f"""
             SELECT *
             FROM question
             WHERE id = {id}"""
@@ -36,8 +36,8 @@ def get_question_by_id(id):
 
 
 @database_common.connection_handler
-def get_answer_by_id(id):
-    query = """
+def get_answer_by_id(cursor, id):
+    query = f"""
                 SELECT *
                 FROM answer
                 WHERE question_id = {id}
@@ -50,11 +50,26 @@ def write_message_update(row):
     connection.update_file(row, "question.csv")
 
 
-def get_edit_question(id_post, title, message):
-    data_of_question = get_question_by_id(id_post)
-    data_to_save = {'id': data_of_question['id'], 'submission_time': data_of_question['submission_time'], 'view_number': data_of_question['view_number'],
-                    'vote_number': data_of_question['vote_number'], 'title': title, 'message': message, "image": ""}
-    write_message_update(data_to_save)
+@database_common.connection_handler
+def get_edit_question_message(cursor, id_post, message):
+    query = f"""
+                    UPDATE question
+                    SET message = '{message}'                    
+                    WHERE id = {id_post}
+                    """
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_edit_question_title(cursor, id_post, title):
+    query = f"""
+                    UPDATE question
+                    SET title = '{title}'                  
+                    WHERE id = {id_post}
+                    """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 def generate_id(file):
