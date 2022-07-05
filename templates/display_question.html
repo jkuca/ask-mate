@@ -9,45 +9,44 @@
 <body>
     <div class="question__container">
         <div class="">
-            {{data['title']}}
+            {{data.title}}
         </div>
         <div class="">
-            {{data['message']}}
+            {{data.message}}
         </div>
-        {% if data['image'] %}
+        {% if data.image %}
         <div class="">
-            {{data['image']}}
+            {{data.image}}
         </div>
         {% endif%}
         <div class="">
-            <span class="">view: {{data['view_number']}}</span>
-
+{#            <span class="">view: {{data.view_number}}</span>#}
             <div class="question__container--vote-box">
-                <a href="/question/{{data['id']}}/vote-up"> <button class="btn__question">vote up</button></a><br>
-                <span class="">votes: {{data['vote_number']}}</span>
-                <a href="/question/{{data['id']}}/vote-down"> <button class="btn__question">vote down</button></a><br>
+                <a href="/question/{{data.id}}/vote-up"> <button class="btn__question">vote up</button></a><br>
+                <span class="">votes: {{data.vote_number}}</span>
+                <a href="/question/{{data.id}}/vote-down"> <button class="btn__question">vote down</button></a><br>
             </div>
         </div>
-        <a href="/question/{{data['id']}}/edit"> <button class="btn__question">edit question ID:
-                {{data['id']}}</button></a><br>
-        <a href="/question/{{data['id']}}/new-answer"> <button class="btn__question">Add answer ID:
-                {{data['id']}}</button></a><br>
-        <a href="/question/{{data['id']}}/delete"> <button class="btn__question">delete question
+        <a href="/question/{{data.id}}/edit"> <button class="btn__question">edit question ID:
+                {{data.id}}</button></a><br>
+        <a href="/question/{{data.id}}/new-answer"> <button class="btn__question">Add answer ID:
+                {{data.id}}</button></a><br>
+        <a href="/question/{{data.id}}/delete"> <button class="btn__question">delete question
             </button></a><br>
 
         <div class="answers__container">
             {% for item in answers %}
             <div class="answers__container-answer">
                 <div class="">
-                    {{item['message']}}
-                    {% if item['image'] %}
-                    {{item['image']}}
+                    {{item.message}}
+                    {% if item.image %}
+                    {{item.image}}
                     {% endif %}
                 </div>
                 <div class="">
-                    votes: {{item["vote_number"]}}
+                    votes: {{item.vote_number}}
                 </div>
-                <a href="/question/{{data['id']}}"> <button class="btn__question">delete answer
+                <a href="/question/{{data.id}}"> <button class="btn__question">delete answer
                     </button></a><br>
 
             </div>

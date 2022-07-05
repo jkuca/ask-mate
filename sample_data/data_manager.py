@@ -27,11 +27,11 @@ def get_sorted_questions(cursor):
 
 @database_common.connection_handler
 def get_question_by_id(cursor, id):
-    query = f"""
+    query = """
             SELECT *
             FROM question
-            WHERE id = {id}"""
-    cursor.execute(query)
+            WHERE id = %(id)s"""
+    cursor.execute(query, {"id": id})
     return cursor.fetchall()
 
 
@@ -40,9 +40,9 @@ def get_answer_by_id(cursor, id):
     query = f"""
                 SELECT *
                 FROM answer
-                WHERE question_id = {id}
+                WHERE question_id = %(id)s
                 """
-    cursor.execute(query)
+    cursor.execute(query, {"id": id})
     return cursor.fetchall()
 
 
@@ -54,22 +54,21 @@ def write_message_update(row):
 def get_edit_question_message(cursor, id_post, message):
     query = f"""
                     UPDATE question
-                    SET message = '{message}'                    
-                    WHERE id = {id_post}
+                    SET message = %(message)s                    
+                    WHERE id = %(id)s
                     """
-    cursor.execute(query)
-    return cursor.fetchall()
+    cursor.execute(query, {"id": id_post, "message": message})
 
 
 @database_common.connection_handler
 def get_edit_question_title(cursor, id_post, title):
-    query = f"""
+    query = """
                     UPDATE question
-                    SET title = '{title}'                  
-                    WHERE id = {id_post}
+                    SET title = %(title)s                  
+                    WHERE id = %(id)s
                     """
-    cursor.execute(query)
-    return cursor.fetchall()
+    cursor.execute(query, {"id": id_post, "title": title})
+
 
 
 def generate_id(file):
@@ -105,7 +104,7 @@ def add_new_answer(question_id, message):
 
 def count_visits(id):
     data_of_question = get_question_by_id(id)
-    data_of_question['view_number'] = int(data_of_question['view_number']) + 1
+    data_of_question.view_number = int(data_of_question.view_number) + 1
     write_message_update(data_of_question)
 
 
