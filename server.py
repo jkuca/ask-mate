@@ -94,7 +94,9 @@ def vote_answer_down():
 @app.route('/search')
 def search_result():
     search_phrase = request.args.get('search_phrase')
+    search_phrase = "How"
     questions = data_manager.search_questions(search_phrase)
+    print(questions)
     return render_template('search.html', search_phrase=search_phrase, questions=questions)
 
 if __name__ == "__main__":
