@@ -108,9 +108,9 @@ def count_visits(id):
     write_message_update(data_of_question)
 
 
-def delete_row(id):
+def delete_row(id, name_table):
     query = f"""
-                        DELETE FROM question                 
+                        DELETE FROM {name_table}                 
                         WHERE id = %(id)s
                         """
     cursor.execute(query, {"id": id})
