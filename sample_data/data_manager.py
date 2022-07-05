@@ -25,7 +25,6 @@ def get_sorted_questions(cursor):
     # return questions
 
 
-
 def get_question_by_id(id):
     question = connection.read_file("question.csv")
     for item in question:
@@ -65,7 +64,6 @@ def generate_id(file):
     data = connection.read_file(file)
     generated_id = int(data[-1]['id'])+1
     return generated_id
-
 
 
 def write_new_row(row, directory):
