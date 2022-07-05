@@ -46,9 +46,13 @@ def edit_question(id_post):
         return redirect(url)
 
     else:
+        count = data_manager.generate_id()
         data_of_question = data_manager.get_question_by_id(id_post)
+        counts = data_manager.generate_id()
+        print(type(count[0]['count']))
+        id = count[0]['count']
 
-    return render_template("edit.html", data=data_of_question[0])
+    return render_template("edit.html", data=data_of_question[0], count=count[0])
 
 
 @app.route("/add_question", methods=['POST', 'GET'])
@@ -64,7 +68,7 @@ def add_question():
 
 @app.route("/question/<string:id_post>/delete")
 def delete_question(id_post):
-    data_manager.delete_row(id_post, 'question.csv')
+    data_manager.delete_row(id_post, 'question')
     return redirect('/list')
 
 

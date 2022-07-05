@@ -20,9 +20,6 @@ def get_sorted_questions(cursor):
         ORDER BY submission_time DESC"""
     cursor.execute(query)
     return cursor.fetchall()
-    # questions = connection.read_file("question.csv")
-    # questions.sort(key=sorting)
-    # return questions
 
 
 @database_common.connection_handler
@@ -70,11 +67,13 @@ def get_edit_question_title(cursor, id_post, title):
     cursor.execute(query, {"id": id_post, "title": title})
 
 
-
-def generate_id(file):
-    data = connection.read_file(file)
-    generated_id = int(data[-1]['id'])+1
-    return generated_id
+@database_common.connection_handler
+def generate_id(cursor):
+    query = """
+                Select count(*)
+                FROM question"""
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 
@@ -83,13 +82,14 @@ def write_new_row(row, directory):
 
 
 def add_new_question(title, message):
-    data_to_save = connection.get_row("question.csv")
-    data_to_save['id'] = generate_id("question.csv")
-    data_to_save['submission_time'] = util.get_time()
-    data_to_save['title'] = title
-    data_to_save['message'] = message
-    write_new_row(data_to_save, "question.csv")
-    return data_to_save['id']
+    question_id = generate_id()
+    submission_time = util.get_time()
+    query = f"""
+                    INSERT INTO question
+                    VALUES (%(id)s, %(time)s, 0, 0, %(title)s, %(message)s, NULL)
+                    """
+    cursor.execute(query, {"id": question_id, 'time': submission_time, 'title': title, 'message': message})
+    return cursor.fetchall()
 
 
 def add_new_answer(question_id, message):
@@ -99,7 +99,8 @@ def add_new_answer(question_id, message):
     data_to_save['message'] = message
     data_to_save['question_id'] = question_id
 
-    write_new_row(data_to_save, "answer.csv")
+
+
 
 
 def count_visits(id):
