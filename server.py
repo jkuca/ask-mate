@@ -61,10 +61,11 @@ def add_question():
     if request.method == 'POST':
         title = request.form.get('title')
         message = request.form.get('message')
-        data, id = data_manager.add_new_question(title, message)
-        blink_url = "/question/" + str(id)
-        return redirect(blink_url, 302)
-    return render_template('clear.html')
+        id = data_manager.add_new_question(title, message)
+        print(id)
+        # blink_url = "/question/" + str(id)
+        # return redirect(blink_url, 302)
+    return render_template('ask_question.html')
 
 
 @app.route("/question/<string:id_post>/delete")

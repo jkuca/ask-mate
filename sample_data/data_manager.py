@@ -5,19 +5,20 @@ from psycopg2.extras import RealDictCursor
 
 import database_common
 from typing import List, Dict
+import util
 
 from psycopg2 import sql
 from psycopg2.extras import RealDictCursor
 #https://www.postgresqltutorial.com/wp-content/uploads/2018/03/PostgreSQL-Cheat-Sheet.pdf
-import database_common
+
 
 
 @database_common.connection_handler
-def get_sorted_questions(cursor):
-    query = """
+def get_sorted_questions(cursor, parameter, value_parameter):
+    query = f"""
         SELECT *
         FROM question
-        ORDER BY submission_time DESC"""
+        ORDER BY {parameter} {value_parameter}"""
     cursor.execute(query)
     return cursor.fetchall()
 
@@ -76,20 +77,26 @@ def generate_id(cursor):
     return cursor.fetchall()
 
 
-
 def write_new_row(row, directory):
     connection.add_new_row(row, directory)
 
 
-def add_new_question(title, message):
-    question_id = generate_id()
+@database_common.connection_handler
+def add_new_question(cursor, title, message):
+    # question_id = generate_id()
     submission_time = util.get_time()
-    query = f"""
+    query = """
                     INSERT INTO question
-                    VALUES (%(id)s, %(time)s, 0, 0, %(title)s, %(message)s, NULL);
+                    VALUES (DEFAULT, %(time)s, 0, 0, %(title)s, %(message)s, NULL);
+                    SELECT ID
+                    FROM question;
                     """
-    cursor.execute(query, {"id": question_id, 'time': submission_time, 'title': title, 'message': message})
-    return cursor.fetchall(), question_id
+    cursor.execute(query, {'time': submission_time, 'title': title, 'message': message})
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def add_new_comment(cursor, id, message):
+    submission_time = util.get_time()
 
 
 def add_new_answer(question_id, message):
