@@ -6,7 +6,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+    latest_questions = data_manager.get_latest_questions(5)
+    return render_template('home.html', questions=latest_questions)
 
 
 @app.route("/list")

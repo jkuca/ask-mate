@@ -25,6 +25,8 @@ def get_sorted_questions(cursor):
     # return questions
 
 
+
+
 @database_common.connection_handler
 def get_question_by_id(id):
     query = """
