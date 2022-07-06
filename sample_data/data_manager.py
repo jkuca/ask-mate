@@ -24,13 +24,24 @@ def get_sorted_questions(cursor, parameter, value_parameter):
 
 
 @database_common.connection_handler
+def get_sorted_comments(cursor, parameter, id:str):
+    query = f"""
+        SELECT *
+        FROM comments
+        WHERE {parameter} = '{id}'"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def get_question_by_id(cursor, id):
+    print(id)
     query = """
             SELECT *
             FROM question
             WHERE id = %(id)s"""
     cursor.execute(query, {"id": id})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @database_common.connection_handler
@@ -95,8 +106,13 @@ def add_new_question(cursor, title, message):
     return cursor.fetchall()
 
 @database_common.connection_handler
-def add_new_comment(cursor, id, message):
+def add_new_comment(cursor, message, id_question = 'NULL', id_answer = 'NULL'):
     submission_time = util.get_time()
+    query = f"""
+                    INSERT INTO comment
+                    VALUES (DEFAULT, {id_question}, {id_answer}, %(message)s, '{submission_time}', 0)
+                    """
+    cursor.execute(query, {'message': message})
 
 
 def add_new_answer(question_id, message):
