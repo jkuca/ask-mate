@@ -11,7 +11,7 @@ def home():
 
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
-    questions = data_manager.get_sorted_questions()
+    questions = data_manager.get_sorted_questions('id', 'ASC')
     print(questions)
     return render_template('list.html', questions=questions)
 
@@ -22,7 +22,7 @@ def get_question(question_id):
     answers = data_manager.get_answer_by_id(question_id)
     # data_manager.count_visits(question_id)
     comments = data_manager.get_sorted_comments(parameter='question_id', id=question_id)
-    return render_template('display_question.html', data=question, answers=answers)
+    return render_template('display_question.html', data=question, answers=answers)#, comments=comments)
 
 
 @app.route("/question/<string:id_post>/new-answer", methods=['POST', 'GET'])
@@ -30,8 +30,7 @@ def add_answer(id_post):
     if request.method == 'POST':
         message = request.form.get('message')
         data_manager.add_new_answer(id_post, message)
-        blink_url = "/question/" + str(id_post)
-        return redirect(blink_url, 302)
+        return redirect(url_for('get_question', question_id=id_post))
     return render_template('add_answer.html', data=id_post)
 
 
@@ -47,7 +46,6 @@ def edit_question(id_post):
         return redirect(url_for('get_question', question_id=id_post))
     else:
         data_of_question = data_manager.get_question_by_id(id_post)
-        print(id_post, "dupa")  # delete
         return render_template("edit.html", data=data_of_question)
 
 
@@ -60,7 +58,9 @@ def add_question():
         id = id[-1]
         id_post = id['id']  #too refactoring
 
-    return redirect(url_for('get_question', question_id=id_post))
+        return redirect(url_for('get_question', question_id=id_post))
+    else:
+        return render_template()
 
 
 @app.route("/question/<string:id_question>/new-comment", methods=['POST', 'GET'])
@@ -73,6 +73,16 @@ def add_new_comment_question(id_question):
         question = data_manager.get_question_by_id("2")
         return render_template('comment.html', data=question)
 
+
+@app.route("/answer/<string:id_answer>/new-comment", methods=['POST', 'GET'])
+def add_new_comment_answer(id_answer):
+    if request.method == 'POST':
+        message = request.form.get('comment')
+        data_manager.add_new_comment(message, id_answer=id_answer)
+        return redirect(url_for('get_question', question_id=id_answer))
+    else:
+        question = data_manager.get_question_by_id("2")
+        return render_template('comment.html', data=question)
 
 
 @app.route("/question/<string:id_post>/delete")

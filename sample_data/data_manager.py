@@ -27,7 +27,7 @@ def get_sorted_questions(cursor, parameter, value_parameter):
 def get_sorted_comments(cursor, parameter, id:str):
     query = f"""
         SELECT *
-        FROM comments
+        FROM comment
         WHERE {parameter} = '{id}'"""
     cursor.execute(query)
     return cursor.fetchall()
@@ -53,10 +53,6 @@ def get_answer_by_id(cursor, id):
                 """
     cursor.execute(query, {"id": id})
     return cursor.fetchall()
-
-
-def write_message_update(row):
-    connection.update_file(row, "question.csv")
 
 
 @database_common.connection_handler
@@ -88,10 +84,6 @@ def generate_id(cursor):
     return cursor.fetchall()
 
 
-def write_new_row(row, directory):
-    connection.add_new_row(row, directory)
-
-
 @database_common.connection_handler
 def add_new_question(cursor, title, message):
     # question_id = generate_id()
@@ -113,17 +105,6 @@ def add_new_comment(cursor, message, id_question = 'NULL', id_answer = 'NULL'):
                     VALUES (DEFAULT, {id_question}, {id_answer}, %(message)s, '{submission_time}', 0)
                     """
     cursor.execute(query, {'message': message})
-
-
-def add_new_answer(question_id, message):
-    data_to_save = connection.get_row("answer.csv")
-    data_to_save['id'] = generate_id("answer.csv")
-    data_to_save['submission_time'] = util.get_time()
-    data_to_save['message'] = message
-    data_to_save['question_id'] = question_id
-
-
-
 
 
 def count_visits(id):
