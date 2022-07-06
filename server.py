@@ -3,7 +3,7 @@ from sample_data import data_manager
 
 app = Flask(__name__)
 
-
+# ADD displaying 5 latest questions
 @app.route("/")
 def home():
     latest_questions = data_manager.get_latest_questions(5)
@@ -22,7 +22,7 @@ def get_question(question_id):
     question = data_manager.get_question_by_id(question_id)
     answers = data_manager.get_answer_by_id(question_id)
     # data_manager.count_visits(question_id)
-    return render_template('display_question.html', data=question[0], answers=answers)
+    return render_template('display_question.html', data=question, answers=answers)
 
 
 @app.route("/question/<string:id_post>/new-answer", methods=['POST', 'GET'])
@@ -56,6 +56,22 @@ def edit_question(id_post):
 
     return render_template("edit.html", data=data_of_question[0], count=count[0])#delete
 
+#template edit_answer - redirect from the answer page
+@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    if request.method == "GET":
+        answer = data_manager.get_answer_by_id(answer_id)
+        return render_template('edit_answer.html', answer=answer)
+
+    question_id = data_manager.get_question_by_id(id)['question_id']
+    question = data_manager.get_question_by_id(question_id)
+    edited_answer_data = {
+            'message': request.form.get('message'),
+            #'image': request.form.get('image')
+            }
+    updated_answer = data_manager.edit_answer(answer_id, edited_answer_data)
+    return redirect('/display_question', data=question, answers=updated_answer)
+
 
 @app.route("/add_question", methods=['POST', 'GET'])
 def add_question():
@@ -71,7 +87,7 @@ def add_question():
 
 @app.route("/question/<string:id_post>/delete")
 def delete_question(id_post):
-    data_manager.delete_row(id_post, 'question')
+    data_manager.delete_question_by_id(id_post)
     return redirect('/list')
 
 
@@ -104,6 +120,7 @@ def vote_answer_up():
 def vote_answer_down():
     pass
 
+#NEW ADDED - add button to main page
 @app.route('/search')
 def search_result():
     search_phrase = request.args.get('search_phrase')

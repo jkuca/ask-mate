@@ -94,7 +94,7 @@ def add_new_question(cursor, title, message):
                     FROM question;
                     """
     cursor.execute(query, {'time': submission_time, 'title': title, 'message': message})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 @database_common.connection_handler
 def add_new_comment(cursor, id, message):
@@ -159,3 +159,29 @@ def get_latest_questions(cursor, count):
                    {'count': count})
     latest_questions = cursor.fetchall()
     return latest_questions
+
+@database_common.connection_handler
+def edit_answer(cursor, answer_id, edited_data):
+    cursor.execute("""UPDATE answer
+                      SET submission_time = %(submission_time)s, message = %(message)s,
+                      #image = %(image)s
+                      WHERE id=%(id)s;""",
+                   {'submission_time': util.get_time(),
+                    'message': edited_data['message'],
+                    #'image': edited_data['image'],
+                    'id': answer_id})
+
+@database_common.connection_handler
+def delete_question_by_id(cursor, question_id):
+    cursor.execute("""DELETE FROM comment
+                      WHERE question_id=%(id)s;""",
+                   {'id': question_id})
+    cursor.execute("""SELECT id FROM answer
+                      WHERE question_id=%(id)s;""",
+                   {'id': question_id})
+    answer_ids = cursor.fetchall()
+    for answer_id in answer_ids:
+        delete_answer_by_id(answer_id['id'])
+    cursor.execute("""DELETE FROM question
+                      WHERE id=%(id)s;""",
+                   {'id': question_id})
