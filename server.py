@@ -12,14 +12,16 @@ def home():
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
     questions = data_manager.get_sorted_questions()
+    print(questions)
     return render_template('list.html', questions=questions)
 
 
 @app.route("/question/<question_id>")
 def get_question(question_id):
-    question, answers = data_manager.get_quetion_and_answers(question_id)
-    data_manager.count_visits(question_id)
-    return render_template('display_question.html', data=question, answers=answers)
+    question = data_manager.get_question_by_id(question_id)
+    answers = data_manager.get_answer_by_id(question_id)
+    # data_manager.count_visits(question_id)
+    return render_template('display_question.html', data=question[0], answers=answers)
 
 
 @app.route("/question/<string:id_post>/new-answer", methods=['POST', 'GET'])
@@ -34,15 +36,24 @@ def add_answer(id_post):
 
 @app.route("/question/<string:id_post>/edit", methods=["POST", "GET"])
 def edit_question(id_post):
-    url = f"/question/{id_post}"
-    if request.form == "POST":
+    url = "/question/" + str(id_post)
+    if request.method == "POST":
         message = request.form.get("message")
         title = request.form.get('title')
-        data_manager.get_edit_question(id_post, title, message)
+        data_manager.get_edit_question_message(id_post, message)
+        if len(title) > 0:
+            data_manager.get_edit_question_title(id_post, title)
         return redirect(url)
+
     else:
+        count = data_manager.generate_id()
         data_of_question = data_manager.get_question_by_id(id_post)
-    return render_template("edit.html", data=data_of_question)
+
+        print(type(count[0]['count'])) #delete
+        id = count[0]['count'] #delete
+        print(id)
+
+    return render_template("edit.html", data=data_of_question[0], count=count[0])#delete
 
 
 @app.route("/add_question", methods=['POST', 'GET'])
@@ -50,15 +61,15 @@ def add_question():
     if request.method == 'POST':
         title = request.form.get('title')
         message = request.form.get('message')
-        id = data_manager.add_new_question(title, message)
+        data, id = data_manager.add_new_question(title, message)
         blink_url = "/question/" + str(id)
         return redirect(blink_url, 302)
-    return render_template('ask_question.html')
+    return render_template('clear.html')
 
 
 @app.route("/question/<string:id_post>/delete")
 def delete_question(id_post):
-    data_manager.delete_row(id_post, 'question.csv')
+    data_manager.delete_row(id_post, 'question')
     return redirect('/list')
 
 

@@ -20,29 +20,26 @@ def get_sorted_questions(cursor):
         ORDER BY submission_time DESC"""
     cursor.execute(query)
     return cursor.fetchall()
-    # questions = connection.read_file("question.csv")
-    # questions.sort(key=sorting)
-    # return questions
 
 
 @database_common.connection_handler
-def get_question_by_id(id):
+def get_question_by_id(cursor, id):
     query = """
             SELECT *
             FROM question
-            WHERE id = {id}"""
-    cursor.execute(query)
+            WHERE id = %(id)s"""
+    cursor.execute(query, {"id": id})
     return cursor.fetchall()
 
 
 @database_common.connection_handler
-def get_answer_by_id(id):
-    query = """
+def get_answer_by_id(cursor, id):
+    query = f"""
                 SELECT *
                 FROM answer
-                WHERE question_id = {id}
+                WHERE question_id = %(id)s
                 """
-    cursor.execute(query)
+    cursor.execute(query, {"id": id})
     return cursor.fetchall()
 
 
@@ -50,17 +47,33 @@ def write_message_update(row):
     connection.update_file(row, "question.csv")
 
 
-def get_edit_question(id_post, title, message):
-    data_of_question = get_question_by_id(id_post)
-    data_to_save = {'id': data_of_question['id'], 'submission_time': data_of_question['submission_time'], 'view_number': data_of_question['view_number'],
-                    'vote_number': data_of_question['vote_number'], 'title': title, 'message': message, "image": ""}
-    write_message_update(data_to_save)
+@database_common.connection_handler
+def get_edit_question_message(cursor, id_post, message):
+    query = f"""
+                    UPDATE question
+                    SET message = %(message)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id_post, "message": message})
 
 
-def generate_id(file):
-    data = connection.read_file(file)
-    generated_id = int(data[-1]['id'])+1
-    return generated_id
+@database_common.connection_handler
+def get_edit_question_title(cursor, id_post, title):
+    query = """
+                    UPDATE question
+                    SET title = %(title)s                  
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id_post, "title": title})
+
+
+@database_common.connection_handler
+def generate_id(cursor):
+    query = """
+                Select count(*)
+                FROM question"""
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 
@@ -69,13 +82,14 @@ def write_new_row(row, directory):
 
 
 def add_new_question(title, message):
-    data_to_save = connection.get_row("question.csv")
-    data_to_save['id'] = generate_id("question.csv")
-    data_to_save['submission_time'] = util.get_time()
-    data_to_save['title'] = title
-    data_to_save['message'] = message
-    write_new_row(data_to_save, "question.csv")
-    return data_to_save['id']
+    question_id = generate_id()
+    submission_time = util.get_time()
+    query = f"""
+                    INSERT INTO question
+                    VALUES (%(id)s, %(time)s, 0, 0, %(title)s, %(message)s, NULL);
+                    """
+    cursor.execute(query, {"id": question_id, 'time': submission_time, 'title': title, 'message': message})
+    return cursor.fetchall(), question_id
 
 
 def add_new_answer(question_id, message):
@@ -85,17 +99,22 @@ def add_new_answer(question_id, message):
     data_to_save['message'] = message
     data_to_save['question_id'] = question_id
 
-    write_new_row(data_to_save, "answer.csv")
+
+
 
 
 def count_visits(id):
     data_of_question = get_question_by_id(id)
-    data_of_question['view_number'] = int(data_of_question['view_number']) + 1
+    data_of_question.view_number = int(data_of_question.view_number) + 1
     write_message_update(data_of_question)
 
 
-def delete_row(id, directory):
-    connection.delete_row({'id': id}, directory)
+def delete_row(id, name_table):
+    query = f"""
+                        DELETE FROM {name_table}                 
+                        WHERE id = %(id)s
+                        """
+    cursor.execute(query, {"id": id})
 
 
 def get_votes(data_of_question):
