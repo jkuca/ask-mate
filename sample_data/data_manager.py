@@ -86,10 +86,10 @@ def add_new_question(title, message):
     submission_time = util.get_time()
     query = f"""
                     INSERT INTO question
-                    VALUES (%(id)s, %(time)s, 0, 0, %(title)s, %(message)s, NULL)
+                    VALUES (%(id)s, %(time)s, 0, 0, %(title)s, %(message)s, NULL);
                     """
     cursor.execute(query, {"id": question_id, 'time': submission_time, 'title': title, 'message': message})
-    return cursor.fetchall()
+    return cursor.fetchall(), question_id
 
 
 def add_new_answer(question_id, message):

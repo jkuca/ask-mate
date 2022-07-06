@@ -48,11 +48,12 @@ def edit_question(id_post):
     else:
         count = data_manager.generate_id()
         data_of_question = data_manager.get_question_by_id(id_post)
-        counts = data_manager.generate_id()
-        print(type(count[0]['count']))
-        id = count[0]['count']
 
-    return render_template("edit.html", data=data_of_question[0], count=count[0])
+        print(type(count[0]['count'])) #delete
+        id = count[0]['count'] #delete
+        print(id)
+
+    return render_template("edit.html", data=data_of_question[0], count=count[0])#delete
 
 
 @app.route("/add_question", methods=['POST', 'GET'])
@@ -60,10 +61,10 @@ def add_question():
     if request.method == 'POST':
         title = request.form.get('title')
         message = request.form.get('message')
-        id = data_manager.add_new_question(title, message)
+        data, id = data_manager.add_new_question(title, message)
         blink_url = "/question/" + str(id)
         return redirect(blink_url, 302)
-    return render_template('ask_question.html')
+    return render_template('clear.html')
 
 
 @app.route("/question/<string:id_post>/delete")
