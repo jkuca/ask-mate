@@ -17,7 +17,7 @@ def get_sorted_questions(cursor):
     query = """
         SELECT *
         FROM question
-        ORDER BY id"""
+        ORDER BY submission_time DESC"""
     cursor.execute(query)
     return cursor.fetchall()
     # questions = connection.read_file("question.csv")
@@ -25,28 +25,28 @@ def get_sorted_questions(cursor):
     # return questions
 
 
+<<<<<<< HEAD
+=======
+@database_common.connection_handler
+>>>>>>> 360f07a19225cb2b51355ae0b1f3e604f676c105
 def get_question_by_id(id):
-    question = connection.read_file("question.csv")
-    for item in question:
-        if item['id'] == id:
-            return item
+    query = """
+            SELECT *
+            FROM question
+            WHERE id = {id}"""
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
+@database_common.connection_handler
 def get_answer_by_id(id):
-    answer = connection.read_file("answer.csv")
-    for item in answer:
-        if item['id'] == id:
-            return item
-
-
-def get_quetion_and_answers(id):
-    question = get_question_by_id(id)
-    list_of_answers = []
-    answers = connection.read_file('answer.csv')
-    for answer in answers:
-        if answer["question_id"] == id:
-            list_of_answers.append(answer)
-    return question, list_of_answers
+    query = """
+                SELECT *
+                FROM answer
+                WHERE question_id = {id}
+                """
+    cursor.execute(query)
+    return cursor.fetchall()
 
 
 def write_message_update(row):
