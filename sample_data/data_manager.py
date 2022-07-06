@@ -8,7 +8,7 @@ from typing import List, Dict
 
 from psycopg2 import sql
 from psycopg2.extras import RealDictCursor
-#https://www.postgresqltutorial.com/wp-content/uploads/2018/03/PostgreSQL-Cheat-Sheet.pdf
+
 import database_common
 
 
@@ -25,10 +25,7 @@ def get_sorted_questions(cursor):
     # return questions
 
 
-<<<<<<< HEAD
-=======
 @database_common.connection_handler
->>>>>>> 360f07a19225cb2b51355ae0b1f3e604f676c105
 def get_question_by_id(id):
     query = """
             SELECT *
