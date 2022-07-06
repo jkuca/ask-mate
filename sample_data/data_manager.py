@@ -170,18 +170,17 @@ def edit_answer(cursor, answer_id, edited_data):
                     'message': edited_data['message'],
                     #'image': edited_data['image'],
                     'id': answer_id})
-
+#do sprawdzenia
 @database_common.connection_handler
 def delete_question_by_id(cursor, question_id):
-    cursor.execute("""DELETE FROM comment
-                      WHERE question_id=%(id)s;""",
-                   {'id': question_id})
-    cursor.execute("""SELECT id FROM answer
-                      WHERE question_id=%(id)s;""",
-                   {'id': question_id})
-    answer_ids = cursor.fetchall()
-    for answer_id in answer_ids:
-        delete_answer_by_id(answer_id['id'])
-    cursor.execute("""DELETE FROM question
-                      WHERE id=%(id)s;""",
-                   {'id': question_id})
+    cursor.execute("""  
+                    DELETE FROM question WHERE id=%(question_id)s
+                    DELETE FROM answer WHERE question_id=%(question_id)s
+                    """, {'id': question_id, 'question_id': question_id}
+
+# do sprawdzenia
+@database_common.connection_handler
+def delete_answer_by_id(cursor, answer_id):
+    cursor.execute("""
+                   DELETE FROM answer WHERE id=%(answer_id)s
+                   """, {'answer_id': answer_id})

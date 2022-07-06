@@ -106,8 +106,8 @@ def vote_question_down(id_post):
 
 
 @app.route("/answer/<string:id_answer>/delete")
-def delete_answer(id_answer):
-    data_manager.delete_row(id_answer, 'answer.csv')
+def delete_answer(answer_id):
+    data_manager.delete_answer_by_id(answer_id)
     return redirect('/list')
 
 
