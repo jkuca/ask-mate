@@ -1,6 +1,5 @@
-import time
+from datetime import datetime
 
 
 def get_time():
-    current_time = time.time()
-    return current_time
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
