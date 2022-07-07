@@ -179,14 +179,14 @@ def get_latest_questions(cursor, count):
 
 @database_common.connection_handler
 def edit_answer(cursor, answer_id, edited_data):
-    cursor.execute("""UPDATE answer
-                      SET submission_time = %(submission_time)s, message = %(message)s,
-                      #image = %(image)s
-                      WHERE id=%(id)s;""",
-                   {'submission_time': util.get_time(),
-                    'message': edited_data['message'],
-                    # 'image': edited_data['image'],
-                    'id': answer_id})
+    query = f"""      UPDATE answer
+                      SET submission_time = %(submission_time)s, message = %(message)s
+                      WHERE id=%(id)s"""
+
+    cursor.execute(query, {"id": answer_id,
+                           'submission_time': util.get_time(),
+                           'message': edited_data
+                           })
 
 
 @database_common.connection_handler

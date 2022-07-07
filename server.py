@@ -136,17 +136,15 @@ def add_answer(id_post):
 ############# Edit Answer ####################
 @app.route('/answer/<string:answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
-    if request.method == "GET":
+    answer = data_manager.get_one_answer_by_id(answer_id)
+    if request.method == "POST":
+        message = request.form.get("message")
+        data_manager.edit_answer(answer_id,  message)
+        return redirect(url_for('get_question', question_id=answer['question_id']))
+    else:
         answer = data_manager.get_one_answer_by_id(answer_id)
-        return render_template('edit_answer.html', answer=answer)
+    return render_template('edit_answer.html', answer=answer)
 
-    question = data_manager.get_question_by_id(answer['question_id'])
-    edited_answer_data = {
-        'message': request.form.get('message'),
-        # 'image': request.form.get('image')
-    }
-    updated_answer = data_manager.edit_answer(answer_id, edited_answer_data)
-    return redirect(f'/display_question/{question["id"]}', data=question, answers=updated_answer)
 
 ################ Delete Answer #################
 
