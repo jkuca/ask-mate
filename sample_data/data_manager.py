@@ -112,10 +112,6 @@ def count_visits(cursor, id, view_number):
     cursor.execute(query, {"id": id, "view_number": view_number + 1})
 
 
-def delete_row(id, directory):
-    pass
-
-
 @database_common.connection_handler
 def count_votes_up(cursor, id, vote_number):
     query = f"""
