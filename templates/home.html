@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,44 +8,48 @@
 
     <title>AskMate</title>
 </head>
+
 <body>
-<div class="navigation">
-    <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
+    <div class="navigation">
+        <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
 
-    <label for="navi-toggle" class="navigation__button">
-        <span class="navigation__icon">&nbsp;</span>
-    </label>
+        <label for="navi-toggle" class="navigation__button">
+            <span class="navigation__icon">&nbsp;</span>
+        </label>
 
-    <div class="navigation__background">&nbsp;</div>
+        <div class="navigation__background">&nbsp;</div>
 
-    <nav class="navigation__nav">
-        <ul class="navigation__list">
-            <li class="navigation__item"><a href="/list" class="navigation__link"><span>01</span>List of question</a></li>
-            <li class="navigation__item"><a href="/add_question" class="navigation__link"><span>02</span>Add Question</a></li>
+        <nav class="navigation__nav">
+            <ul class="navigation__list">
+                <li class="navigation__item"><a href="/list" class="navigation__link"><span>01</span>List of
+                        question</a></li>
+                <li class="navigation__item"><a href="/add_question" class="navigation__link"><span>02</span>Add
+                        Question</a></li>
 
-        </ul>
-    </nav>
-</header>
+            </ul>
+        </nav>
+        </header>
 
-<div id="questions" >
-{% for question in questions %}
-<div class="question-sumamary">
-    <div class="post-summary--stats-item">
-        <span class="post-summary--stats-item-number">{{question.vote_number}}</span>
-        <span class="post-summary--stats-item-unit">votes</span>
-    </div>
-    <div class="post-summary--stats-item">
-        <span class="post-summary--stats-item-number">{{question.view_number}}</span>
-        <span class="post-summary--stats-item-unit">views</span>
-    </div>
-    <div class="post-summary--content-item">
-        <h3 class="post-summary--content-title">{{question.title}}</h3>
-        <div class="post-summary--content-description">{{question.message}}</div>
-    </div>
-</div>
+        <div id="questions">
+            {% for question in questions %}
+            <div class="question-sumamary">
+                <div class="post-summary--stats-item">
+                    <span class="post-summary--stats-item-number">{{question.vote_number}}</span>
+                    <span class="post-summary--stats-item-unit">votes</span>
+                </div>
+                <div class="post-summary--stats-item">
+                    <span class="post-summary--stats-item-number">{{question.view_number}}</span>
+                    <span class="post-summary--stats-item-unit">views</span>
+                </div>
+                <div class="post-summary--content-item">
+                    <h3 class="post-summary--content-title">{{question.title}}</h3>
+                    <div class="post-summary--content-description">{{question.message}}</div>
+                </div>
+            </div>
 
-{% endfor %}
-</div>
+            {% endfor %}
+        </div>
 
 </body>
+
 </html>
