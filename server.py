@@ -20,10 +20,16 @@ def home():
 ###################################################
 
 
-@app.route("/list")
+@app.route("/list", methods=['POST', 'GET'])
 def get_all_questions_sorted_by_submission_time():
-    questions = data_manager.get_sorted_questions('id', 'ASC')
-    print(questions)
+    filter_question = request.args.get('filter_question')
+    direction = request.args.get('direction')
+    print(filter_question, "   -   ", direction)
+    if filter_question and direction:
+        questions = data_manager.get_sorted_questions(
+            filter_question, direction)
+    else:
+        questions = data_manager.get_sorted_questions('id', 'DESC')
     return render_template('list.html', questions=questions)
 
 
@@ -134,27 +140,22 @@ def add_answer(id_post):
 # template edit_answer - redirect from the answer page
 
 ############# Edit Answer ####################
-@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+@app.route('/answer/<string:answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
-    if request.method == "GET":
-        answer = data_manager.get_answer_by_id(answer_id)
-        return render_template('edit_answer.html', answer=answer)
+    answer = data_manager.get_one_answer_by_id(answer_id)
+    if request.method == "POST":
+        message = request.form.get("message")
+        data_manager.edit_answer(answer_id,  message)
+        return redirect(url_for('get_question', question_id=answer['question_id']))
+    return render_template('edit_answer.html', answer=answer)
 
-    question_id = data_manager.get_question_by_id(id)['question_id']
-    question = data_manager.get_question_by_id(question_id)
-    edited_answer_data = {
-        'message': request.form.get('message'),
-        # 'image': request.form.get('image')
-    }
-    updated_answer = data_manager.edit_answer(answer_id, edited_answer_data)
-    return redirect('/display_question', data=question, answers=updated_answer)
 
 ################ Delete Answer #################
 
 
 @app.route("/answer/<string:id_answer>/delete")
-def delete_answer(answer_id):
-    data_manager.delete_answer_by_id(answer_id)
+def delete_answer(id_answer):
+    data_manager.delete_row(id_answer, 'answer.csv')
     return redirect('/list')
 
 
@@ -163,16 +164,22 @@ def delete_answer(answer_id):
 ###############################################
 
 ############## Answer Vote Up ################
-@app.route("/answer/<answer_id>/vote-up")
-def vote_answer_up():
-    pass
+@app.route("/answer/<string:answer_id>/vote-up")
+def vote_answer_up(answer_id):
+    answer = data_manager.get_one_answer_by_id(answer_id)
+    data_manager.count_votes_answer_up(answer_id, answer['vote_number'])
+    blink_url = "/question/" + str(answer['question_id'])
+    return redirect(blink_url, 302)
 
 ############## Answer Vote Down ################
 
 
-@app.route("/answer/<answer_id>/vote-down")
-def vote_answer_down():
-    pass
+@app.route("/answer/<string:answer_id>/vote-down")
+def vote_answer_down(answer_id):
+    answer = data_manager.get_one_answer_by_id(answer_id)
+    data_manager.count_votes_answer_down(answer_id, answer['vote_number'])
+    blink_url = "/question/" + str(answer['question_id'])
+    return redirect(blink_url, 302)
 
 
 ############## Answer Add Comment ################

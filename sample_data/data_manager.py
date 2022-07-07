@@ -48,10 +48,21 @@ def get_answer_by_id(cursor, id):
 
 
 @database_common.connection_handler
+def get_one_answer_by_id(cursor, id):
+    query = f"""
+                SELECT *
+                FROM answer
+                WHERE id = {id}
+                """
+    cursor.execute(query)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
 def get_edit_question_message(cursor, id_post, message):
     query = f"""
                     UPDATE question
-                    SET message = %(message)s
+                    SET message = %(message)s                    
                     WHERE id = %(id)s
                     """
     cursor.execute(query, {"id": id_post, "message": message})
@@ -61,7 +72,7 @@ def get_edit_question_message(cursor, id_post, message):
 def get_edit_question_title(cursor, id_post, title):
     query = f"""
                     UPDATE question
-                    SET title = %(title)s
+                    SET title = %(title)s                    
                     WHERE id = %(id)s
                     """
     cursor.execute(query, {"id": id_post, "title": title})
@@ -95,21 +106,17 @@ def add_new_comment(cursor, message, id_question='NULL', id_answer='NULL'):
 def count_visits(cursor, id, view_number):
     query = f"""
                     UPDATE question
-                    SET view_number = %(view_number)s
+                    SET view_number = %(view_number)s                    
                     WHERE id = %(id)s
                     """
     cursor.execute(query, {"id": id, "view_number": view_number + 1})
-
-
-def delete_row(id, directory):
-    pass
 
 
 @database_common.connection_handler
 def count_votes_up(cursor, id, vote_number):
     query = f"""
                     UPDATE question
-                    SET vote_number = %(vote_number)s
+                    SET vote_number = %(vote_number)s                    
                     WHERE id = %(id)s
                     """
     cursor.execute(query, {"id": id, "vote_number": vote_number + 1})
@@ -119,7 +126,27 @@ def count_votes_up(cursor, id, vote_number):
 def count_votes_down(cursor, id, vote_number):
     query = f"""
                     UPDATE question
-                    SET vote_number = %(vote_number)s
+                    SET vote_number = %(vote_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "vote_number": vote_number - 1})
+
+
+@database_common.connection_handler
+def count_votes_answer_up(cursor, id, vote_number):
+    query = f"""
+                    UPDATE answer
+                    SET vote_number = %(vote_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "vote_number": vote_number + 1})
+
+
+@database_common.connection_handler
+def count_votes_answer_down(cursor, id, vote_number):
+    query = f"""
+                    UPDATE answer
+                    SET vote_number = %(vote_number)s                    
                     WHERE id = %(id)s
                     """
     cursor.execute(query, {"id": id, "vote_number": vote_number - 1})
@@ -129,7 +156,7 @@ def count_votes_down(cursor, id, vote_number):
 def search_questions(cursor, search_phrase):
     sql = '''select distinct question.id, question.title, question.message from question
             left join answer on answer.question_id = question.id
-            WHERE question.message LIKE '%%%s%%' OR question.title LIKE '%%%s%%' OR answer.message LIKE '%%%s%%'
+            WHERE question.message LIKE '%%%s%%' OR question.title LIKE '%%%s%%' OR answer.message LIKE '%%%s%%' 
             ORDER BY question.id;''' % (search_phrase, search_phrase, search_phrase)
     cursor.execute(sql)
     question_data = cursor.fetchall()
@@ -148,33 +175,17 @@ def get_latest_questions(cursor, count):
 
 @database_common.connection_handler
 def edit_answer(cursor, answer_id, edited_data):
-    cursor.execute("""UPDATE answer
-                      SET submission_time = %(submission_time)s, message = %(message)s,
-                      # image = %(image)s
-                      WHERE id=%(id)s;""",
-                   {'submission_time': util.get_time(),
-                    'message': edited_data['message'],
-                    # 'image': edited_data['image'],
-                    'id': answer_id})
+    query = f"""      UPDATE answer
+                      SET submission_time = %(submission_time)s, message = %(message)s
+                      WHERE id=%(id)s"""
+
+    cursor.execute(query, {"id": answer_id,
+                           'submission_time': util.get_time(),
+                           'message': edited_data
+                           })
 
 
-# do sprawdzenia
 @database_common.connection_handler
-def delete_question_by_id(cursor, question_id):
-    cursor.execute("""
-                    DELETE FROM question WHERE id=%(question_id)s
-                    DELETE FROM answer WHERE question_id=%(question_id)s
-                    """, {'id': question_id, 'question_id': question_id}
-
-# do sprawdzenia
-@ database_common.connection_handler
-def delete_answer_by_id(cursor, answer_id):
-    cursor.execute("""
-                   DELETE FROM answer WHERE id=%(answer_id)s
-                   """, {'answer_id': answer_id})
-
-
-@ database_common.connection_handler
 def delete_question_by_id(cursor, question_id):
     cursor.execute("""DELETE FROM comment
                       WHERE question_id=%(id)s;""",
@@ -182,7 +193,7 @@ def delete_question_by_id(cursor, question_id):
     cursor.execute("""SELECT id FROM answer
                       WHERE question_id=%(id)s;""",
                    {'id': question_id})
-    answer_ids=cursor.fetchall()
+    answer_ids = cursor.fetchall()
     for answer_id in answer_ids:
         delete_answer_by_id(answer_id['id'])
     cursor.execute("""DELETE FROM question
