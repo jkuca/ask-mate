@@ -4,6 +4,7 @@ import os
 import psycopg2
 import psycopg2.extras
 
+
 def get_connection_string():
     user_name = os.environ.get('PSQL_USER_NAME')
     password = os.environ.get('PSQL_PASSWORD')
@@ -25,7 +26,8 @@ def get_connection_string():
             password=password,
             host=host,
             database_name=database_name))
-        raise KeyError('Some necessary environment variable(s) are not defined')
+        raise KeyError(
+            'Some necessary environment variable(s) are not defined')
 
 
 def open_database():
@@ -42,7 +44,8 @@ def open_database():
 def connection_handler(function):
     def wrapper(*args, **kwargs):
         connection = open_database()
-        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        dict_cur = connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor)
         ret_value = function(dict_cur, *args, **kwargs)
         dict_cur.close()
         connection.close()

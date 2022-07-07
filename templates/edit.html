@@ -6,7 +6,7 @@
 </head>
 <body>
     <div>
-        <h1>Edit question ID: {{ data.id }}, count: {{ count.count }}</h1>
+        <h1>Edit question ID: {{ data.id }}</h1>
         <form action="/question/{{ data.id }}/edit" method="POST">
             <label for="title">Tittle:</label>
             <textarea name="title" rows="1" cols="85" placeholder="{{ data.title }}"></textarea><br>
