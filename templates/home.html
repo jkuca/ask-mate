@@ -26,6 +26,25 @@
     </nav>
 </header>
 
+<div id="questions" >
+{% for question in questions %}
+<div class="question-sumamary">
+    <div class="post-summary--stats-item">
+        <span class="post-summary--stats-item-number">{{question.vote_number}}</span>
+        <span class="post-summary--stats-item-unit">votes</span>
+    </div>
+    <div class="post-summary--stats-item">
+        <span class="post-summary--stats-item-number">{{question.view_number}}</span>
+        <span class="post-summary--stats-item-unit">views</span>
+    </div>
+    <div class="post-summary--content-item">
+        <h3 class="post-summary--content-title">{{question.title}}</h3>
+        <div class="post-summary--content-description">{{question.message}}</div>
+    </div>
+</div>
+
+{% endfor %}
+</div>
 
 </body>
 </html>
