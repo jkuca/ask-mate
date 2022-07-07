@@ -41,7 +41,8 @@ def get_edit_question_message(cursor, id_post, message):
                     SET message = %(message)s                    
                     WHERE id = %(id)s
                     """
-    cursor.execute(query, {"id": id_post, "message": message})
+    cursor.execute(query, {"id": id_post,
+                           "message": message})
 
 @database_common.connection_handler
 def get_edit_question_title(cursor, id_post, title):
@@ -50,7 +51,8 @@ def get_edit_question_title(cursor, id_post, title):
                     SET title = %(title)s                    
                     WHERE id = %(id)s
                     """
-    cursor.execute(query, {"id": id_post, "title": title})
+    cursor.execute(query, {"id": id_post,
+                           "title": title})
 
 @database_common.connection_handler
 def add_new_question(cursor, title, message):
@@ -61,7 +63,8 @@ def add_new_question(cursor, title, message):
                     RETURNING id;
                     """
     cursor.execute(query, {'time': submission_time,
-                   'title': title, 'message': message})
+                           'title': title,
+                           'message': message})
 
     return cursor.fetchone()
 
@@ -179,7 +182,8 @@ def count_visits(cursor, id, view_number):
                     SET view_number = %(view_number)s                    
                     WHERE id = %(id)s
                     """
-    cursor.execute(query, {"id": id, "view_number": view_number + 1})
+    cursor.execute(query, {"id": id,
+                           "view_number": view_number + 1})
 
 @database_common.connection_handler
 def count_votes_up(cursor, id, vote_number):
@@ -188,7 +192,8 @@ def count_votes_up(cursor, id, vote_number):
                     SET vote_number = %(vote_number)s                    
                     WHERE id = %(id)s
                     """
-    cursor.execute(query, {"id": id, "vote_number": vote_number + 1})
+    cursor.execute(query, {"id": id,
+                           "vote_number": vote_number + 1})
 
 @database_common.connection_handler
 def count_votes_down(cursor, id, vote_number):
@@ -197,7 +202,8 @@ def count_votes_down(cursor, id, vote_number):
                     SET vote_number = %(vote_number)s                    
                     WHERE id = %(id)s
                     """
-    cursor.execute(query, {"id": id, "vote_number": vote_number - 1})
+    cursor.execute(query, {"id": id,
+                           "vote_number": vote_number - 1})
 
 @database_common.connection_handler
 def count_votes_answer_up(cursor, id, vote_number):
@@ -206,7 +212,8 @@ def count_votes_answer_up(cursor, id, vote_number):
                     SET vote_number = %(vote_number)s                    
                     WHERE id = %(id)s
                     """
-    cursor.execute(query, {"id": id, "vote_number": vote_number + 1})
+    cursor.execute(query, {"id": id,
+                           "vote_number": vote_number + 1})
 
 @database_common.connection_handler
 def count_votes_answer_down(cursor, id, vote_number):
@@ -215,4 +222,5 @@ def count_votes_answer_down(cursor, id, vote_number):
                     SET vote_number = %(vote_number)s                    
                     WHERE id = %(id)s
                     """
-    cursor.execute(query, {"id": id, "vote_number": vote_number - 1})
+    cursor.execute(query, {"id": id,
+                           "vote_number": vote_number - 1})
