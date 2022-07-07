@@ -48,6 +48,17 @@ def get_answer_by_id(cursor, id):
 
 
 @database_common.connection_handler
+def get_one_answer_by_id(cursor, id):
+    query = f"""
+                SELECT *
+                FROM answer
+                WHERE id = {id}
+                """
+    cursor.execute(query)
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
 def get_edit_question_message(cursor, id_post, message):
     query = f"""
                     UPDATE question
@@ -119,6 +130,26 @@ def count_votes_up(cursor, id, vote_number):
 def count_votes_down(cursor, id, vote_number):
     query = f"""
                     UPDATE question
+                    SET vote_number = %(vote_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "vote_number": vote_number - 1})
+
+
+@database_common.connection_handler
+def count_votes_answer_up(cursor, id, vote_number):
+    query = f"""
+                    UPDATE answer
+                    SET vote_number = %(vote_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "vote_number": vote_number + 1})
+
+
+@database_common.connection_handler
+def count_votes_answer_down(cursor, id, vote_number):
+    query = f"""
+                    UPDATE answer
                     SET vote_number = %(vote_number)s                    
                     WHERE id = %(id)s
                     """
