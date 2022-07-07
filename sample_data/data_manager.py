@@ -2,6 +2,7 @@ import database_common as database_common
 from typing import List, Dict
 from psycopg2 import sql
 from psycopg2.extras import RealDictCursor
+import util
 
 
 @database_common.connection_handler
@@ -66,12 +67,12 @@ def add_new_question(cursor, title, message):
     submission_time = util.get_time()
     query = """
                     INSERT INTO question
-                    VALUES (DEFAULT, %(time)s, 0, 0, %(title)s, %(message)s, NULL);
-                    SELECT ID
-                    FROM question;
+                    VALUES (DEFAULT, %(time)s, 0, 0, %(title)s, %(message)s, NULL)
+                    RETURNING id;
                     """
     cursor.execute(query, {'time': submission_time,
                    'title': title, 'message': message})
+
     return cursor.fetchone()
 
 
