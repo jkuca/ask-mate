@@ -44,7 +44,9 @@
                     {% endif %}
                 </div>
                 <div class="">
+                    <a href="/answer/{{item.id}}/vote-up"> <button class="btn__question">vote up</button></a><br>
                     votes: {{item.vote_number}}
+                    <a href="/answer/{{item.id}}/vote-down"> <button class="btn__question">vote down</button></a><br>
                 </div>
                 <a href="/answer/{{item.id}}/edit"> <button class="btn__question">edit answer
                     </button></a><br>

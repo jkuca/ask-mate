@@ -162,16 +162,22 @@ def delete_answer(id_answer):
 ###############################################
 
 ############## Answer Vote Up ################
-@app.route("/answer/<answer_id>/vote-up")
-def vote_answer_up():
-    pass
+@app.route("/answer/<string:answer_id>/vote-up")
+def vote_answer_up(answer_id):
+    answer = data_manager.get_one_answer_by_id(answer_id)
+    data_manager.count_votes_answer_up(answer_id, answer['vote_number'])
+    blink_url = "/question/" + str(answer['question_id'])
+    return redirect(blink_url, 302)
 
 ############## Answer Vote Down ################
 
 
-@app.route("/answer/<answer_id>/vote-down")
-def vote_answer_down():
-    pass
+@app.route("/answer/<string:answer_id>/vote-down")
+def vote_answer_down(answer_id):
+    answer = data_manager.get_one_answer_by_id(answer_id)
+    data_manager.count_votes_answer_down(answer_id, answer['vote_number'])
+    blink_url = "/question/" + str(answer['question_id'])
+    return redirect(blink_url, 302)
 
 
 ############## Answer Add Comment ################

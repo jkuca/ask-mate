@@ -137,6 +137,26 @@ def count_votes_down(cursor, id, vote_number):
 
 
 @database_common.connection_handler
+def count_votes_answer_up(cursor, id, vote_number):
+    query = f"""
+                    UPDATE answer
+                    SET vote_number = %(vote_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "vote_number": vote_number + 1})
+
+
+@database_common.connection_handler
+def count_votes_answer_down(cursor, id, vote_number):
+    query = f"""
+                    UPDATE answer
+                    SET vote_number = %(vote_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "vote_number": vote_number - 1})
+
+
+@database_common.connection_handler
 def search_questions(cursor, search_phrase):
     sql = '''select distinct question.id, question.title, question.message from question
             left join answer on answer.question_id = question.id
