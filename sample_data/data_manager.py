@@ -18,13 +18,33 @@ def get_sorted_questions(cursor, parameter, value_parameter):
 
 
 @database_common.connection_handler
+def get_sorted_comments(cursor, parameter, id:str):
+    query = f"""
+        SELECT *
+        FROM comment
+        WHERE {parameter} = '{id}'"""
+    cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
 def get_question_by_id(cursor, id):
+<<<<<<< HEAD
     query = f"""
             SELECT *
             FROM question
             WHERE id = {id}"""
     cursor.execute(query)
     return cursor.fetchall()
+=======
+    print(id)
+    query = """
+            SELECT *
+            FROM question
+            WHERE id = %(id)s"""
+    cursor.execute(query, {"id": id})
+    return cursor.fetchone()
+>>>>>>> adam
 
 
 @database_common.connection_handler
@@ -38,6 +58,7 @@ def get_answer_by_id(cursor, id):
     return cursor.fetchall()
 
 
+<<<<<<< HEAD
 def write_message_update(row):
     connection.update_file(row, "question.csv")
 
@@ -47,16 +68,22 @@ def get_edit_question(id_post, title, message):
     data_to_save = {'id': data_of_question['id'], 'submission_time': data_of_question['submission_time'], 'view_number': data_of_question['view_number'],
                     'vote_number': data_of_question['vote_number'], 'title': title, 'message': message, "image": ""}
     write_message_update(data_to_save)
+=======
+@database_common.connection_handler
+def get_edit_question_message(cursor, id_post, message):
+    query = f"""
+                    UPDATE question
+                    SET message = %(message)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id_post, "message": message})
+>>>>>>> adam
 
 
 def generate_id(file):
     data = connection.read_file(file)
     generated_id = int(data[-1]['id'])+1
     return generated_id
-
-
-def write_new_row(row, directory):
-    connection.add_new_row(row, directory)
 
 
 @database_common.connection_handler
@@ -75,8 +102,9 @@ def add_new_question(cursor, title, message):
 
 
 @database_common.connection_handler
-def add_new_comment(cursor, id, message):
+def add_new_comment(cursor, message, id_question = 'NULL', id_answer = 'NULL'):
     submission_time = util.get_time()
+<<<<<<< HEAD
 
 
 def add_new_answer(question_id, message):
@@ -87,6 +115,13 @@ def add_new_answer(question_id, message):
     data_to_save['question_id'] = question_id
 
     write_new_row(data_to_save, "answer.csv")
+=======
+    query = f"""
+                    INSERT INTO comment
+                    VALUES (DEFAULT, {id_question}, {id_answer}, %(message)s, '{submission_time}', 0)
+                    """
+    cursor.execute(query, {'message': message})
+>>>>>>> adam
 
 
 def count_visits(id):
