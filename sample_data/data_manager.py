@@ -57,8 +57,14 @@ def get_edit_question_message(cursor, id_post, message):
     cursor.execute(query, {"id": id_post, "message": message})
 
 
-def generate_id(file):
-    pass
+@database_common.connection_handler
+def get_edit_question_title(cursor, id_post, title):
+    query = f"""
+                    UPDATE question
+                    SET title = %(title)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id_post, "title": title})
 
 
 @database_common.connection_handler
@@ -86,24 +92,37 @@ def add_new_comment(cursor, message, id_question='NULL', id_answer='NULL'):
 
 
 @database_common.connection_handler
-def count_visits(id):
-    pass
+def count_visits(cursor, id, view_number):
+    query = f"""
+                    UPDATE question
+                    SET view_number = %(view_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "view_number": view_number + 1})
 
 
 def delete_row(id, directory):
     pass
 
 
-def get_votes(data_of_question):
-    pass
+@database_common.connection_handler
+def count_votes_up(cursor, id, vote_number):
+    query = f"""
+                    UPDATE question
+                    SET vote_number = %(vote_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "vote_number": vote_number + 1})
 
 
-def count_votes_up(id):
-    pass
-
-
-def count_votes_down(id):
-    pass
+@database_common.connection_handler
+def count_votes_down(cursor, id, vote_number):
+    query = f"""
+                    UPDATE question
+                    SET vote_number = %(vote_number)s                    
+                    WHERE id = %(id)s
+                    """
+    cursor.execute(query, {"id": id, "vote_number": vote_number - 1})
 
 
 @database_common.connection_handler

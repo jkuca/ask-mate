@@ -35,7 +35,7 @@ def get_all_questions_sorted_by_submission_time():
 def get_question(question_id):
     question = data_manager.get_question_by_id(question_id)
     answers = data_manager.get_answer_by_id(question_id)
-    # data_manager.count_visits(question_id)
+    data_manager.count_visits(question_id, question['view_number'])
     comments = data_manager.get_sorted_comments(
         parameter='question_id', id=question_id)
     # , comments=comments)
@@ -70,12 +70,7 @@ def edit_question(id_post):
     else:
         data_of_question = data_manager.get_question_by_id(id_post)
 
-        print(type(count[0]['count']))  # delete
-        id = count[0]['count']  # delete
-        print(id)
-
-    # delete
-    return render_template("edit.html", data=data_of_question[0], count=count[0])
+    return render_template("edit.html", data=data_of_question)
 
 
 ########### Delete Question ############
@@ -103,19 +98,21 @@ def add_new_comment_question(id_question):
 
 
 ######### Vote Up ########
-@app.route("/question/<string:id_post>/vote-up")
-def vote_question_up(id_post):
-    data_manager.count_votes_up(id_post)
-    blink_url = "/question/" + str(id_post)
+@app.route("/question/<string:question_id>/vote-up")
+def vote_question_up(question_id):
+    question = data_manager.get_question_by_id(question_id)
+    data_manager.count_votes_up(question_id, question['vote_number'])
+    blink_url = "/question/" + str(question_id)
     return redirect(blink_url, 302)
 
 ###### Vote Down ########
 
 
-@app.route("/question/<string:id_post>/vote-down")
-def vote_question_down(id_post):
-    data_manager.count_votes_down(id_post)
-    blink_url = "/question/" + str(id_post)
+@app.route("/question/<string:question_id>/vote-down")
+def vote_question_down(question_id):
+    question = data_manager.get_question_by_id(question_id)
+    data_manager.count_votes_down(question_id, question['vote_number'])
+    blink_url = "/question/" + str(question_id)
     return redirect(blink_url, 302)
 
 #############################################################

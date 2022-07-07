@@ -28,27 +28,35 @@
 
             </ul>
         </nav>
-        </header>
+    </div>
 
-        <div id="questions">
-            {% for question in questions %}
-            <div class="question-sumamary">
-                <div class="post-summary--stats-item">
-                    <span class="post-summary--stats-item-number">{{question.vote_number}}</span>
-                    <span class="post-summary--stats-item-unit">votes</span>
-                </div>
-                <div class="post-summary--stats-item">
-                    <span class="post-summary--stats-item-number">{{question.view_number}}</span>
-                    <span class="post-summary--stats-item-unit">views</span>
-                </div>
-                <div class="post-summary--content-item">
-                    <h3 class="post-summary--content-title">{{question.title}}</h3>
-                    <div class="post-summary--content-description">{{question.message}}</div>
-                </div>
+    <form action="/search" method="POST" class="serch_bar">
+        <input type="text" id="title" name="title" value="">
+        <input type="submit" value="submit" />
+    </form>
+
+
+
+
+    <div id="questions">
+        {% for question in questions %}
+        <div class="question-sumamary">
+            <div class="post-summary--stats-item">
+                <span class="post-summary--stats-item-number">{{question.vote_number}}</span>
+                <span class="post-summary--stats-item-unit">votes</span>
             </div>
-
-            {% endfor %}
+            <div class="post-summary--stats-item">
+                <span class="post-summary--stats-item-number">{{question.view_number}}</span>
+                <span class="post-summary--stats-item-unit">views</span>
+            </div>
+            <div class="post-summary--content-item">
+                <h3 class="post-summary--content-title">{{question.title}}</h3>
+                <div class="post-summary--content-description">{{question.message}}</div>
+            </div>
         </div>
+
+        {% endfor %}
+    </div>
 
 </body>
 
