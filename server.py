@@ -33,7 +33,7 @@ def get_all_questions_sorted_by_submission_time():
 
 @app.route("/question/<string:question_id>")
 def get_question(question_id):
-    question = data_manager.get_question_y_id(question_id)
+    question = data_manager.get_question_by_id(question_id)
     answers = data_manager.get_answer_by_id(question_id)
     # data_manager.count_visits(question_id)
     comments = data_manager.get_sorted_comments(
@@ -51,9 +51,7 @@ def add_question():
         title = request.form.get('title')
         message = request.form.get('message')
         id = data_manager.add_new_question(title, message)
-        id_post = id['id']  # too refactoring
-
-        return redirect(url_for('get_question', question_id=id_post))
+        return redirect(url_for('get_question', question_id=id['id']))
     else:
         return render_template('ask_question.html')
 

@@ -63,7 +63,6 @@ def generate_id(file):
 
 @database_common.connection_handler
 def add_new_question(cursor, title, message):
-    # question_id = generate_id()
     submission_time = util.get_time()
     query = """
                     INSERT INTO question
@@ -86,6 +85,7 @@ def add_new_comment(cursor, message, id_question='NULL', id_answer='NULL'):
     cursor.execute(query, {'message': message})
 
 
+@database_common.connection_handler
 def count_visits(id):
     pass
 
