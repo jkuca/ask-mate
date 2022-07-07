@@ -141,8 +141,6 @@ def edit_answer(answer_id):
         message = request.form.get("message")
         data_manager.edit_answer(answer_id,  message)
         return redirect(url_for('get_question', question_id=answer['question_id']))
-    else:
-        answer = data_manager.get_one_answer_by_id(answer_id)
     return render_template('edit_answer.html', answer=answer)
 
 
