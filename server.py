@@ -20,10 +20,16 @@ def home():
 ###################################################
 
 
-@app.route("/list")
+@app.route("/list", methods=['POST', 'GET'])
 def get_all_questions_sorted_by_submission_time():
-    questions = data_manager.get_sorted_questions('id', 'ASC')  # edit
-    print(questions)
+    filter_question = request.args.get('filter_question')
+    direction = request.args.get('direction')
+    print(filter_question, "   -   ", direction)
+    if filter_question and direction:
+        questions = data_manager.get_sorted_questions(
+            filter_question, direction)
+    else:
+        questions = data_manager.get_sorted_questions('id', 'DESC')
     return render_template('list.html', questions=questions)
 
 
