@@ -137,7 +137,7 @@ def add_answer(id_post):
 @app.route('/answer/<string:answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     if request.method == "GET":
-        answer = data_manager.get_answer_by_id(answer_id)
+        answer = data_manager.get_one_answer_by_id(answer_id)
         return render_template('edit_answer.html', answer=answer)
 
     question = data_manager.get_question_by_id(answer['question_id'])

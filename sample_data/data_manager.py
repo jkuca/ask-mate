@@ -44,6 +44,17 @@ def get_answer_by_id(cursor, id):
                 WHERE question_id = {id}
                 """
     cursor.execute(query)
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def get_one_answer_by_id(cursor, id):
+    query = f"""
+                SELECT *
+                FROM answer
+                WHERE id = {id}
+                """
+    cursor.execute(query)
     return cursor.fetchone()
 
 
