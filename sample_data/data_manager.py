@@ -1,15 +1,8 @@
+import database_common as database_common
 from typing import List, Dict
-
 from psycopg2 import sql
 from psycopg2.extras import RealDictCursor
-
-import database_common
-from typing import List, Dict
-
-from psycopg2 import sql
-from psycopg2.extras import RealDictCursor
-
-import database_common
+import database_common as database_common
 
 
 @database_common.connection_handler
@@ -26,8 +19,8 @@ def get_sorted_questions(cursor):
 
 
 @database_common.connection_handler
-def get_question_by_id(id):
-    query = """
+def get_question_by_id(cursor, id):
+    query = f"""
             SELECT *
             FROM question
             WHERE id = {id}"""
@@ -36,8 +29,8 @@ def get_question_by_id(id):
 
 
 @database_common.connection_handler
-def get_answer_by_id(id):
-    query = """
+def get_answer_by_id(cursor, id):
+    query = f"""
                 SELECT *
                 FROM answer
                 WHERE question_id = {id}
