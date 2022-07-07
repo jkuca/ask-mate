@@ -22,7 +22,7 @@ def home():
 
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
-    questions = data_manager.get_sorted_questions('id', 'ASC')
+    questions = data_manager.get_sorted_questions('id', 'ASC') # edit
     print(questions)
     return render_template('list.html', questions=questions)
 
