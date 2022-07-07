@@ -156,7 +156,7 @@ def edit_answer(answer_id):
 @app.route("/answer/<string:id_answer>/delete")
 def delete_answer(answer_id):
     data_manager.delete_answer(answer_id)
-    answer = get_one_answer_by_id(answer_id)
+    answer = data_manager.get_one_answer_by_id(answer_id)
     blink_url = "/question/" + str(answer['question_id'])
     return redirect(blink_url, 302)
 
@@ -208,9 +208,7 @@ def delete_comment(comment_id):
 @app.route('/search')
 def search_result():
     search_phrase = request.args.get('search_phrase')
-    search_phrase = "How"
     questions = data_manager.search_questions(search_phrase)
-    print(questions)
     return render_template('search.html', search_phrase=search_phrase, questions=questions)
 
 
