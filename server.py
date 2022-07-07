@@ -3,10 +3,11 @@ from sample_data import data_manager
 
 app = Flask(__name__)
 
-
+# ADD displaying 5 latest questions
 @app.route("/")
 def home():
-    return render_template('home.html')
+    latest_questions = data_manager.get_latest_questions(5)
+    return render_template('home.html', questions=latest_questions)
 
 
 @app.route("/list")
@@ -21,7 +22,7 @@ def get_question(question_id):
     question = data_manager.get_question_by_id(question_id)
     answers = data_manager.get_answer_by_id(question_id)
     # data_manager.count_visits(question_id)
-    return render_template('display_question.html', data=question[0], answers=answers)
+    return render_template('display_question.html', data=question, answers=answers)
 
 
 @app.route("/question/<string:id_post>/new-answer", methods=['POST', 'GET'])
@@ -56,21 +57,38 @@ def edit_question(id_post):
     # delete
     return render_template("edit.html", data=data_of_question[0], count=count[0])
 
+#template edit_answer - redirect from the answer page
+@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    if request.method == "GET":
+        answer = data_manager.get_answer_by_id(answer_id)
+        return render_template('edit_answer.html', answer=answer)
+
+    question_id = data_manager.get_question_by_id(id)['question_id']
+    question = data_manager.get_question_by_id(question_id)
+    edited_answer_data = {
+            'message': request.form.get('message'),
+            #'image': request.form.get('image')
+            }
+    updated_answer = data_manager.edit_answer(answer_id, edited_answer_data)
+    return redirect('/display_question', data=question, answers=updated_answer)
+
 
 @app.route("/add_question", methods=['POST', 'GET'])
 def add_question():
     if request.method == 'POST':
         title = request.form.get('title')
         message = request.form.get('message')
-        data, id = data_manager.add_new_question(title, message)
-        blink_url = "/question/" + str(id)
-        return redirect(blink_url, 302)
-    return render_template('clear.html')
+        id = data_manager.add_new_question(title, message)
+        print(id)
+        # blink_url = "/question/" + str(id)
+        # return redirect(blink_url, 302)
+    return render_template('ask_question.html')
 
 
 @app.route("/question/<string:id_post>/delete")
 def delete_question(id_post):
-    data_manager.delete_row(id_post, 'question')
+    data_manager.delete_question_by_id(id_post)
     return redirect('/list')
 
 
@@ -103,6 +121,14 @@ def vote_answer_up():
 def vote_answer_down():
     pass
 
+#NEW ADDED - add button to main page
+@app.route('/search')
+def search_result():
+    search_phrase = request.args.get('search_phrase')
+    search_phrase = "How"
+    questions = data_manager.search_questions(search_phrase)
+    print(questions)
+    return render_template('search.html', search_phrase=search_phrase, questions=questions)
 
 if __name__ == "__main__":
     app.run(
