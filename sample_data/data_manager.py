@@ -44,7 +44,7 @@ def get_answer_by_id(cursor, id):
                 WHERE question_id = {id}
                 """
     cursor.execute(query)
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @database_common.connection_handler

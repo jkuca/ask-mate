@@ -146,7 +146,7 @@ def edit_answer(answer_id):
         # 'image': request.form.get('image')
     }
     updated_answer = data_manager.edit_answer(answer_id, edited_answer_data)
-    return redirect('/display_question/question["id"]', data=question, answers=updated_answer)
+    return redirect(f'/display_question/{question["id"]}', data=question, answers=updated_answer)
 
 ################ Delete Answer #################
 
