@@ -10,30 +10,65 @@
 </head>
 
 <body>
-    <!-- <div class="navigation">
-        <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
+    <div class="container">
+        <header class="header">
+            <img src="" alt="machette-logo" class="logo">
 
-        <label for="navi-toggle" class="navigation__button">
-            <span class="navigation__icon">&nbsp;</span>
-        </label>
+            <form action="/search" method="POST" class="search" >
+                <input type="text" class="search__input" name="title" placeholder="Search Question">
+                <button class="search__button"><input type="submit" value="" /></button>
+            </form>
 
-        <div class="navigation__background">&nbsp;</div>
 
-        <nav class="navigation__nav">
-            <ul class="navigation__list">
-                <li class="navigation__item"><a href="/list" class="navigation__link"><span>01</span>List of
-                        question</a></li>
-                <li class="navigation__item"><a href="/add_question" class="navigation__link"><span>02</span>Add
-                        Question</a></li>
+            <nav class="user-nav">
+                <div class="user-nav__icon-box">
+                    <span>Sign in</span>
+                </div>
+                <div class="user-nav__icon-box">
+                    <span>Sign up</span>
+                </div>
+            </nav>
+        </header>
 
-            </ul>
-        </nav>
-    </div> -->
+        <div class="content">
 
-    <form action="/search" method="POST" class="serch_bar">
-        <input type="text" id="title" name="title" value="">
-        <input type="submit" value="submit" />
-    </form>
+            <div class="content">
+                <nav class="sidebar">
+                    <ul class="side-nav">
+                        <li class="side-nav__item side-nav__item--active">
+                            <a href="/" class="side-nav__link">
+                                <svg class="side-nav__icon">
+                                    <use xlink:href="img/sprite.svg#icon-home"></use>
+                                </svg>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="side-nav__item">
+                            <a href="/list" class="side-nav__link">
+                                <svg class="side-nav__icon">
+                                    <use xlink:href="img/sprite.svg#icon-aircraft-take-off"></use>
+                                </svg>
+                                <span>Questions</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="legal">
+                        &copy; 2022 AskMate
+                    </div>
+                </nav>
+
+
+
+
+
+        </div>
+
+
+
+
+
 
 
 
@@ -57,7 +92,7 @@
 
         {% endfor %}
     </div>
-
+</div>
 </body>
 
 </html>

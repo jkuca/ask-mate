@@ -81,8 +81,8 @@ def edit_question(id_post):
 
 ########### Delete Question ############
 @app.route("/question/<string:id_post>/delete")
-def delete_question(id_post):
-    data_manager.delete_question_by_id(id_post)
+def delete_question(question_id):
+    data_manager.delete_question(question_id)
     return redirect('/list')
 
 
@@ -154,10 +154,11 @@ def edit_answer(answer_id):
 
 
 @app.route("/answer/<string:id_answer>/delete")
-def delete_answer(id_answer):
-    data_manager.delete_row(id_answer, 'answer.csv')
-    return redirect('/list')
-
+def delete_answer(answer_id):
+    data_manager.delete_answer(answer_id)
+    answer = get_one_answer_by_id(answer_id)
+    blink_url = "/question/" + str(answer['question_id'])
+    return redirect(blink_url, 302)
 
 ###############################################
 ################ Vote answers #################
@@ -193,6 +194,12 @@ def add_new_comment_answer(id_answer):
         question = data_manager.get_question_by_id("2")
         return render_template('comment.html', data=question)
 
+@app.route('/comment/<comment_id>/delete')
+def delete_comment(comment_id):
+    data_manager.delete_comment(comment_id)
+    comment = get_comment_by_id(comment_id)
+    blink_url = "/question/" + str(comment['question_id'])
+    return redirect(blink_url, 302)
 
 ###########################################
 ########### Serch Bar #####################
