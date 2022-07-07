@@ -10,6 +10,20 @@
 </head>
 
 <body>
+<form action="/list">
+    <label for="filter_question">Filter question:</label>
+    <select name="filter_question" id="Filter_question">
+        <option value="submission_time">Time</option>
+        <option value="view_number">Viewer</option>
+        <option value="vote_number">Voting</option>
+    </select>
+    <label for="direction">Direction:</label>
+    <select name="filter_question" id="Filter_question">
+        <option value="DESC">Lower</option>
+        <option value="ASC">Upper</option>
+    </select>
+    <button type="submit">Search</button><br>
+</form>
 {% for element in questions %}
     <div class="sorting_container">
     </div>
@@ -25,11 +39,14 @@
         </div>
         <div class="post__left-box">
            <span>
-               {{element.vote_number}} votes
+               {{element.vote_number}} votes,
             </span>
            <span>
-                {{element.view_number}} vievers
+                {{element.view_number}} vievers,
            </span>
+            <span>
+                {{ element.submission_time }} time
+            </span>
 
         </div>
         <div class="post__btn-container">
