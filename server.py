@@ -22,7 +22,7 @@ def home():
 
 @app.route("/list")
 def get_all_questions_sorted_by_submission_time():
-    questions = data_manager.get_sorted_questions('id', 'ASC') # edit
+    questions = data_manager.get_sorted_questions('id', 'ASC')  # edit
     print(questions)
     return render_template('list.html', questions=questions)
 
@@ -134,20 +134,19 @@ def add_answer(id_post):
 # template edit_answer - redirect from the answer page
 
 ############# Edit Answer ####################
-@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+@app.route('/answer/<string:answer_id>/edit', methods=['GET', 'POST'])
 def edit_answer(answer_id):
     if request.method == "GET":
         answer = data_manager.get_answer_by_id(answer_id)
         return render_template('edit_answer.html', answer=answer)
 
-    question_id = data_manager.get_question_by_id(id)['question_id']
-    question = data_manager.get_question_by_id(question_id)
+    question = data_manager.get_question_by_id(answer['question_id'])
     edited_answer_data = {
         'message': request.form.get('message'),
         # 'image': request.form.get('image')
     }
     updated_answer = data_manager.edit_answer(answer_id, edited_answer_data)
-    return redirect('/display_question', data=question, answers=updated_answer)
+    return redirect('/display_question/question["id"]', data=question, answers=updated_answer)
 
 ################ Delete Answer #################
 
