@@ -2,7 +2,9 @@
 {% block content %}
 <h1>Results of searching for "{{ search_phrase }}"</h1>
 <br>
+{% if questions %}
 <h2>In questions:</h2>
+
 <table class="table">
     <tr>
         <th>ID</th>
@@ -13,6 +15,7 @@
 
         <th>View</th>
     </tr>
+    
     {% for question in questions %}
         <tr>
             <td>{{ question.id }}</td>
@@ -23,5 +26,10 @@
             <td><a href="">See question</a></td>
         </tr>
     {% endfor %}
+    {% else %}
+    <div class="ss">
+        <h1>Not found!</h1>
+    </div>
+    {% endif %}
 </table>
 {% endblock %}
