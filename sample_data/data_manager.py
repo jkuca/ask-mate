@@ -253,3 +253,11 @@ def count_votes_answer_down(cursor, id, vote_number):
 
 def getUser(username, password):
     pass
+
+
+def getUserByUsername(username):
+    pass
+
+
+def addUser(username, password, email):
+    pass
