@@ -10,22 +10,14 @@ import util
 
 @database_common.connection_handler
 def get_sorted_questions(cursor, parameter, value_parameter):
-    query = f"""
-        SELECT *
-        FROM question
-        ORDER BY {parameter} {value_parameter}"""
-    cursor.execute(query)
+    cursor.execute(
+        f'SELECT * FROM question ORDER BY {parameter} {value_parameter} ')
     return cursor.fetchall()
 
 
 @database_common.connection_handler
 def get_question_by_id(cursor, id):
-    print(id)
-    query = """
-            SELECT *
-            FROM question
-            WHERE id = %(id)s"""
-    cursor.execute(query, {"id": id})
+    cursor.execute('SELECT * FROM question WHERE id = %s', (id))
     return cursor.fetchone()
 
 
@@ -252,14 +244,21 @@ def count_votes_answer_down(cursor, id, vote_number):
 
 
 @database_common.connection_handler
+def getUser(cursor, username, password):
+    cursor.execute(
+        'SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def getUserByUsername(cursor, username):
+    cursor.execute('SELECT * FROM accounts WHERE username = %s', (username))
+    if cursor.fetchone():
+        return True
+    return False
+
+
+@database_common.connection_handler
 def addUser(cursor, username, password, email):
     cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s, %s )',
                    (username, password, email, util.get_time()))
-
-
-def getUser(username, password):
-    pass
-
-
-def getUserByUsername(username):
-    pass
