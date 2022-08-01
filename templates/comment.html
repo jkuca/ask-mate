@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment</title>
+</head>
+<body>
+<div class="question__container">
+        <div class="">
+           Title: {{data.title}}
+        </div>
+        <div class="">
+           Message: {{data.message}}
+        </div>
+        {% if data.image %}
+        <div class="">
+            {{data.image}}
+        </div>
+        {% endif %}
+<br>
+</div>
+<div class="get_comment">
+    <form action="/question/{{ data.id }}/new-comment" method="POST">
+            <label for="comment">Provide your comment:</label><br>
+            <textarea name="title" rows="3" cols="50" placeholder="Your comment."></textarea><br>
+            <input type="submit" value="submit" />
+        </form>
+</div>
+</body>
+</html>
