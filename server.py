@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, jsonify, redirect, url_for, session
 from sample_data import data_manager
+import re
 
 app = Flask(__name__)
 
@@ -245,19 +246,20 @@ def search_result():
 # Login base logic- to change
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid Credentials. Please try again.'
+    msg = ''
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        username = request.form['username']
+        password = request.form['password']
+        account = data_manager.getUser(username, password)
+        if account:
+            session['loggedin'] = True
+            session['id'] = account['id']
+            session['username'] = account['username']
+            msg = 'Logged in successfully !'
+            return render_template('home.html', msg=msg)
         else:
-            session['logged_in'] = True
-            return redirect(url_for('home'))
-    return render_template('login.html', error=error)
-
-
-@app.route('/logout')
-def logout():
-    session
+            msg = 'Incorrect username / password !'
+    return render_template('login.html', msg=msg)
 
 
 if __name__ == "__main__":

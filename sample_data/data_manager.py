@@ -5,7 +5,9 @@ from psycopg2.extras import RealDictCursor
 import util
 
 ################################################################################################
-                                        #QUESTIONS#
+#QUESTIONS#
+
+
 @database_common.connection_handler
 def get_sorted_questions(cursor, parameter, value_parameter):
     query = f"""
@@ -14,6 +16,7 @@ def get_sorted_questions(cursor, parameter, value_parameter):
         ORDER BY {parameter} {value_parameter}"""
     cursor.execute(query)
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def get_question_by_id(cursor, id):
@@ -25,6 +28,7 @@ def get_question_by_id(cursor, id):
     cursor.execute(query, {"id": id})
     return cursor.fetchone()
 
+
 @database_common.connection_handler
 def get_latest_questions(cursor, count):
     cursor.execute("""SELECT * FROM question
@@ -33,6 +37,7 @@ def get_latest_questions(cursor, count):
                    {'count': count})
     latest_questions = cursor.fetchall()
     return latest_questions
+
 
 @database_common.connection_handler
 def get_edit_question_message(cursor, id_post, message):
@@ -44,6 +49,7 @@ def get_edit_question_message(cursor, id_post, message):
     cursor.execute(query, {"id": id_post,
                            "message": message})
 
+
 @database_common.connection_handler
 def get_edit_question_title(cursor, id_post, title):
     query = f"""
@@ -53,6 +59,7 @@ def get_edit_question_title(cursor, id_post, title):
                     """
     cursor.execute(query, {"id": id_post,
                            "title": title})
+
 
 @database_common.connection_handler
 def add_new_question(cursor, title, message):
@@ -68,6 +75,7 @@ def add_new_question(cursor, title, message):
 
     return cursor.fetchone()
 
+
 @database_common.connection_handler
 def search_questions(cursor, search_phrase):
     sql = '''select distinct question.id, question.title, question.message from question
@@ -77,6 +85,7 @@ def search_questions(cursor, search_phrase):
     cursor.execute(sql)
     question_data = cursor.fetchall()
     return question_data
+
 
 @database_common.connection_handler
 def delete_question(cursor, question_id):
@@ -92,7 +101,9 @@ def delete_question(cursor, question_id):
     cursor.execute(query, {'question_id': question_id})
 
 ################################################################################################
-                                        #ANSWERS#
+    #ANSWERS#
+
+
 @database_common.connection_handler
 def get_answer_by_id(cursor, id):
     query = f"""
@@ -102,6 +113,7 @@ def get_answer_by_id(cursor, id):
                 """
     cursor.execute(query)
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def get_one_answer_by_id(cursor, id):
@@ -113,6 +125,7 @@ def get_one_answer_by_id(cursor, id):
     cursor.execute(query)
     return cursor.fetchone()
 
+
 @database_common.connection_handler
 def edit_answer(cursor, answer_id, edited_data):
     query = f"""      UPDATE answer
@@ -123,6 +136,7 @@ def edit_answer(cursor, answer_id, edited_data):
                            'submission_time': util.get_time(),
                            'message': edited_data
                            })
+
 
 @database_common.connection_handler
 def delete_answer(cursor, answer_id):
@@ -136,7 +150,9 @@ def delete_answer(cursor, answer_id):
     cursor.execute(query, {'answer_id': answer_id})
 
 ################################################################################################
-                                        #COMENTS#
+    #COMENTS#
+
+
 @database_common.connection_handler
 def get_comment_by_id(cursor, id):
     query = f"""
@@ -147,6 +163,7 @@ def get_comment_by_id(cursor, id):
     cursor.execute(query)
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def get_sorted_comments(cursor, parameter, id: str):
     query = f"""
@@ -155,6 +172,7 @@ def get_sorted_comments(cursor, parameter, id: str):
         WHERE {parameter} = '{id}'"""
     cursor.execute(query)
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def add_new_comment(cursor, message, id_question='NULL', id_answer='NULL'):
@@ -165,6 +183,7 @@ def add_new_comment(cursor, message, id_question='NULL', id_answer='NULL'):
                     """
     cursor.execute(query, {'message': message})
 
+
 @database_common.connection_handler
 def delete_comment(cursor, comment_id):
     query = f"""
@@ -174,7 +193,9 @@ def delete_comment(cursor, comment_id):
     cursor.execute(query, {'comment_id': comment_id})
 
 ################################################################################################
-                                        #COUNTS#
+    #COUNTS#
+
+
 @database_common.connection_handler
 def count_visits(cursor, id, view_number):
     query = f"""
@@ -184,6 +205,7 @@ def count_visits(cursor, id, view_number):
                     """
     cursor.execute(query, {"id": id,
                            "view_number": view_number + 1})
+
 
 @database_common.connection_handler
 def count_votes_up(cursor, id, vote_number):
@@ -195,6 +217,7 @@ def count_votes_up(cursor, id, vote_number):
     cursor.execute(query, {"id": id,
                            "vote_number": vote_number + 1})
 
+
 @database_common.connection_handler
 def count_votes_down(cursor, id, vote_number):
     query = f"""
@@ -204,6 +227,7 @@ def count_votes_down(cursor, id, vote_number):
                     """
     cursor.execute(query, {"id": id,
                            "vote_number": vote_number - 1})
+
 
 @database_common.connection_handler
 def count_votes_answer_up(cursor, id, vote_number):
@@ -215,6 +239,7 @@ def count_votes_answer_up(cursor, id, vote_number):
     cursor.execute(query, {"id": id,
                            "vote_number": vote_number + 1})
 
+
 @database_common.connection_handler
 def count_votes_answer_down(cursor, id, vote_number):
     query = f"""
@@ -224,3 +249,7 @@ def count_votes_answer_down(cursor, id, vote_number):
                     """
     cursor.execute(query, {"id": id,
                            "vote_number": vote_number - 1})
+
+
+def getUser(username, password):
+    pass
