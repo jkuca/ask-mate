@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>AskQuestion</title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block content %}
     <form action="/question/{{data}}/new-answer" method="POST">
         <label for="message">Add Your answer</label><br>
         <input type="text" id="message" name="message" value=""><br><br>
         <input type="submit" value="Submit">
     </form>
-</body>
-
-</html>
+{% endblock %}

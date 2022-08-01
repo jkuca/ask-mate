@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>AskMate</title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block content %}
     <div>
         <h1>Edit Answer {{ answer.id }}</h1>
         <form action="/answer/{{ answer.id }}/edit" method="POST">
@@ -15,6 +8,6 @@
         </form>
     </div>
     <a href="/"> <button class="btn_main_page">Main page</button></a>
-</body>
+{% endblock %}
 
 </html>

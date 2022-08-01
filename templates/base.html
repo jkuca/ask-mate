@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+
+    <title>AskMate</title>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="/static/img/hero_logo.png" alt="machette-logo" class="logo">
+
+            <form action="/search" method="POST" class="search">
+                <input type="text" class="search__input" name="title" placeholder="Search_Question">
+                <button class="search__button"><input type="submit" value="" /></button>
+            </form>
+
+
+            <nav class="user-nav">
+                <div class="user-nav__icon-box">
+                    <a href="/login" class="side-nav__link"><span>Sign in</span></a>
+                </div>
+                <div class="user-nav__icon-box">
+                    <span>Sign up</span>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content">
+
+            <div class="content">
+                <nav class="sidebar">
+                    <ul class="side-nav">
+                        <li class="side-nav__item side-nav__item--active">
+                            <a href="/" class="side-nav__link">
+                                <svg class="side-nav__icon">
+                                    <use xlink:href="img/sprite.svg#icon-home"></use>
+                                </svg>
+                                <span>Home</span>
+                            </a>
+                        </li>
+                        <li class="side-nav__item">
+                            <a href="/list" class="side-nav__link">
+                                <svg class="side-nav__icon">
+                                    <use xlink:href="img/sprite.svg#icon-aircraft-take-off"></use>
+                                </svg>
+                                <span>Questions</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="legal">
+                        &copy; 2022 AskMate
+                    </div>
+                </nav>
+
+
+
+
+
+            </div>
+
+
+            <div id="questions">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+</body>
+
+</html>

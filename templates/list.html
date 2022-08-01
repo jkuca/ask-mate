@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
-
-    <title>AskMate</title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block content %}
 <form action="/list">
     <label for="filter_question">Filter question:</label>
     <select name="filter_question" id="Filter_question">
@@ -56,6 +46,4 @@
 {% endfor %}
         <a href="/add_question"> <button class="btn__question">add question</button></a>
 
-</body>
-
-</html>
+{% endblock %}
