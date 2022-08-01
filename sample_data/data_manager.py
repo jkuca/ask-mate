@@ -251,13 +251,15 @@ def count_votes_answer_down(cursor, id, vote_number):
                            "vote_number": vote_number - 1})
 
 
+@database_common.connection_handler
+def addUser(cursor, username, password, email):
+    cursor.execute('INSERT INTO accounts VALUES (NULL, %s, %s, %s, %s )',
+                   (username, password, email, util.get_time()))
+
+
 def getUser(username, password):
     pass
 
 
 def getUserByUsername(username):
-    pass
-
-
-def addUser(username, password, email):
     pass
