@@ -256,7 +256,7 @@ def login():
             session['id'] = account['id']
             session['username'] = account['username']
             msg = 'Logged in successfully !'
-            return render_template('home.html', msg=msg)
+            return redirect(url_for('home'))
         else:
             msg = 'Incorrect username / password !'
     return render_template('login.html', msg=msg)
@@ -272,7 +272,7 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    data_manager.addUser('username', 'password', 'email')
+
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
         username = request.form['username']

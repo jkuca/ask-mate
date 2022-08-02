@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
            
-           
+         
     <div id="questions">
+        
         {% for question in questions %}
         <div class="question-sumamary">
             <div class="post-summary--stats-item">
@@ -21,4 +22,5 @@
 
         {% endfor %}
     </div>
+    
 {% endblock %}

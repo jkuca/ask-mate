@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-
+{% if session %}
 <form action="/list">
     <label for="filter_question">Filter question:</label>
     <select name="filter_question" id="Filter_question">
@@ -48,4 +48,5 @@
 {% endfor %}
         <a href="/add_question"> <button class="btn__question">add question</button></a>
 
+{% endif %}
 {% endblock %}

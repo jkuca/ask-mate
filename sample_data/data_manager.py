@@ -159,7 +159,9 @@ def getUser(cursor, username, password):
 
 @ database_common.connection_handler
 def getUserByUsername(cursor, username):
-    cursor.execute('SELECT * FROM accounts WHERE username= %s', (username))
+    cursor.execute(
+        f'SELECT * FROM accounts WHERE username= {username}')
+
     acount = cursor.fetchone()
     return acount
 
