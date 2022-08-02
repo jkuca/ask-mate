@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, jsonify, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session
 from sample_data import data_manager
 import re
 
@@ -307,10 +307,11 @@ def users():
 
 @app.route('/profile')
 def profile():
-    pass
+    user_info = data_manager.getUserById(str(session['id']))
+    return render_template('profile.html', user_info=user_info)
 
 
-@app.route('user/<user_id>')
+@app.route('/user/<string:user_id>')
 def user_profile(user_id):
     pass
 

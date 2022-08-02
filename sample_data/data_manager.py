@@ -159,9 +159,7 @@ def getUser(cursor, username, password):
 
 @ database_common.connection_handler
 def getUserByUsername(cursor, username):
-    cursor.execute(
-        f'SELECT * FROM accounts WHERE username= {username}')
-
+    cursor.execute('SELECT * FROM accounts WHERE username= %s', (username))
     acount = cursor.fetchone()
     return acount
 
@@ -172,10 +170,8 @@ def addUser(cursor, username, password, email):
                    (username, password, email, util.get_time()))
 
 
-################################################################################################
-    #USERS LIST#
-
 @database_common.connection_handler
-def getUsersInfo(cursor):
-    cursor.execute('SELECT id, username, submission_time FROM accounts ')
-    return cursor.fetchall()
+def getUserById(cursor, id):
+    cursor.execute(
+        'SELECT username, email, submission_time FROM accounts WHERE id = %s', (id))
+    return cursor.fetchone()
