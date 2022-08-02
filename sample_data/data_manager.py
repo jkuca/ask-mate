@@ -1,3 +1,4 @@
+from os import access
 import database_common as database_common
 from typing import List, Dict
 from psycopg2 import sql
@@ -60,7 +61,7 @@ def search_questions(cursor, search_phrase):
 
 @database_common.connection_handler
 def delete_question(cursor, question_id):
-    cursor.execute(f'DELETE FROM public.question WHERE id={question_id}')
+    cursor.execute('DELETE FROM question WHERE id= %s', (question_id))
 
 ################################################################################################
     #ANSWERS#
@@ -87,7 +88,7 @@ def edit_answer(cursor, answer_id, edited_data):
 @ database_common.connection_handler
 def delete_answer(cursor, answer_id):
     cursor.execute(
-        'DELETE FROM comment WHERE comment.answer_id = %s, DELETE FROM answer WHERE answer.answer_id = %s', (answer_id, answer_id))
+        'DELETE FROM comment WHERE comment.answer_id = %s', (answer_id))
 
 ################################################################################################
     #COMENTS#
@@ -122,31 +123,31 @@ def delete_comment(cursor, comment_id):
 @ database_common.connection_handler
 def count_visits(cursor, id, view_number):
     cursor.execute(
-        'UPDATE question SET view_number= %s WHERE id= %s', (id, (view_number + 1)))
+        'UPDATE question SET view_number= %s WHERE id= %s', ((view_number + 1), id))
 
 
 @ database_common.connection_handler
 def count_votes_up(cursor, id, vote_number):
     cursor.execute(
-        'UPDATE question SET vote_number = %s WHERE id= %s', (id, (vote_number + 1)))
+        'UPDATE question SET vote_number = %s WHERE id= %s', ((vote_number + 1), id))
 
 
 @ database_common.connection_handler
 def count_votes_down(cursor, id, vote_number):
     cursor.execute(
-        'UPDATE question SET vote_number = %s WHERE id= %s', (id, vote_number - 1))
+        'UPDATE question SET vote_number = %s WHERE id= %s', (vote_number - 1, id))
 
 
 @ database_common.connection_handler
 def count_votes_answer_up(cursor, id, vote_number):
     cursor.execute(
-        'UPDATE answer SET vote_number = %s WHERE id= %s', (id, (vote_number + 1)))
+        'UPDATE answer SET vote_number = %s WHERE id= %s', (vote_number + 1, id))
 
 
 @ database_common.connection_handler
 def count_votes_answer_down(cursor, id, vote_number):
     cursor.execute(
-        'UPDATE answer SET vote_number = %s WHERE id= %s', (id, (vote_number - 1)))
+        'UPDATE answer SET vote_number = %s WHERE id= %s', (vote_number - 1, id))
 
 
 @ database_common.connection_handler
@@ -158,10 +159,9 @@ def getUser(cursor, username, password):
 
 @ database_common.connection_handler
 def getUserByUsername(cursor, username):
-    cursor.execute(f'SELECT * FROM accounts WHERE username= {username}')
-    if cursor.fetchone():
-        return True
-    return False
+    cursor.execute('SELECT * FROM accounts WHERE username= %s', (username))
+    acount = cursor.fetchone()
+    return acount
 
 
 @ database_common.connection_handler
