@@ -168,3 +168,12 @@ def getUserByUsername(cursor, username):
 def addUser(cursor, username, password, email):
     cursor.execute('INSERT INTO accounts VALUES (DEFAULT, %s, %s, %s, %s )',
                    (username, password, email, util.get_time()))
+
+
+################################################################################################
+    #USERS LIST#
+
+@database_common.connection_handler
+def displayUsersList(cursor):
+    cursor.execute('')
+    return cursor.fetchall()
