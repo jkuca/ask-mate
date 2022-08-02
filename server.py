@@ -313,7 +313,8 @@ def profile():
 
 @app.route('/user/<string:user_id>')
 def user_profile(user_id):
-    pass
+    user_info = data_manager.getUserById(user_id)
+    return render_template('userprofile.html', user_info=user_info)
 
 
 if __name__ == "__main__":
