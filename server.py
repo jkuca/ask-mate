@@ -29,7 +29,7 @@ def get_all_questions_sorted_by_submission_time():
         questions = data_manager.get_sorted_questions(
             order, direction)
     else:
-        questions = data_manager.get_sorted_questions('id', 'DESC')
+        questions = data_manager.get_sorted_questions('id', "DESC")
     return render_template('list.html', questions=questions)
 
 
@@ -272,6 +272,7 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    data_manager.addUser('username', 'password', 'email')
     msg = ''
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
         username = request.form['username']
