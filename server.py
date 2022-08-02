@@ -297,6 +297,13 @@ def register():
     return render_template('register.html', msg=msg)
 
 
+
+@app.route('/users', methods=['GET', 'POST'])
+def users():
+    table = data_manager.displayUsersList()
+    return render_template('users.html', table=table)
+
+
 if __name__ == "__main__":
     app.run(
         debug=True,  # Allow verbose error reports

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<table>
+    {% for item in table %}
+    <TR>
+       <TD class="c1">{{item.username}}</TD>
+       <TD class="c2">{{item.submission_time}}</TD>
+    </TR>
+    {% endfor %}
+</table>    
+
+{% endblock %}
