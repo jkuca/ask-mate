@@ -243,7 +243,9 @@ def search_result():
     return render_template('search.html', search_phrase=search_phrase, questions=questions)
 
 
-# Login base logic- to change
+############### LOGIN/REGISTER/SESSION ###########################
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     msg = ''
@@ -297,11 +299,20 @@ def register():
     return render_template('register.html', msg=msg)
 
 
-
 @app.route('/users', methods=['GET', 'POST'])
 def users():
-    table = data_manager.displayUsersList()
+    table = data_manager.getUsersInfo()
     return render_template('users.html', table=table)
+
+
+@app.route('/profile')
+def profile():
+    pass
+
+
+@app.route('user/<user_id>')
+def user_profile(user_id):
+    pass
 
 
 if __name__ == "__main__":

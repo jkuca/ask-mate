@@ -176,6 +176,6 @@ def addUser(cursor, username, password, email):
     #USERS LIST#
 
 @database_common.connection_handler
-def displayUsersList(cursor):
-    cursor.execute('SELECT username, submission_time FROM accounts ')
+def getUsersInfo(cursor):
+    cursor.execute('SELECT id, username, submission_time FROM accounts ')
     return cursor.fetchall()
