@@ -3,7 +3,7 @@ from sample_data import data_manager
 import re
 
 app = Flask(__name__)
-
+app.secret_key = '>xG(<-FS]0i{3&)h@oEE#vkC$Qm3=/@6nUu]vE#-agp*j+G!]Fs+Qw#{:gSZ&YS'
 # ADD displaying 5 latest questions
 
 ###################################################
@@ -288,6 +288,7 @@ def register():
         elif not username or not password or not email:
             msg = 'Please fill out the form !'
         else:
+
             data_manager.addUser(username, password, email)
             msg = 'You have successfully registered !'
     elif request.method == 'POST':
