@@ -298,6 +298,8 @@ def register():
         msg = 'Please fill out the form !'
     return render_template('register.html', msg=msg)
 
+#### USERS ####
+
 
 @app.route('/users', methods=['GET', 'POST'])
 def users():

@@ -151,6 +151,12 @@ def count_votes_answer_down(cursor, id, vote_number):
 
 
 @ database_common.connection_handler
+def getUsersInfo(cursor):
+    cursor.execute('SELECT id, username, submission_time FROM accounts')
+    return cursor.fetchall()
+
+
+@ database_common.connection_handler
 def getUser(cursor, username, password):
     cursor.execute(
         'SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password))
@@ -159,7 +165,9 @@ def getUser(cursor, username, password):
 
 @ database_common.connection_handler
 def getUserByUsername(cursor, username):
-    cursor.execute('SELECT * FROM accounts WHERE username= %s', (username))
+    print(username)
+    cursor.execute(
+        "SELECT * FROM accounts WHERE username= '{0}'".format(username))
     acount = cursor.fetchone()
     return acount
 
