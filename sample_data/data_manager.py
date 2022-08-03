@@ -1,8 +1,4 @@
-from os import access
 import database_common as database_common
-from typing import List, Dict
-from psycopg2 import sql
-from psycopg2.extras import RealDictCursor
 import util
 
 ################################################################################################
