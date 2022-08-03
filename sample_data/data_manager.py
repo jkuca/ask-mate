@@ -192,5 +192,9 @@ def getUserById(cursor, id):
 
 
 @database_common.connection_handler
-def updateUserData(cursos, id, email):
-    pass
+def updateUserData(cursor, username, email):
+    cursor.execute(
+        'UPDATE accounts SET username = (%s), email = (%s);', (username, email))
+
+
+

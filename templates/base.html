@@ -29,6 +29,7 @@
                     <a href="/register" class="side-nav__link"><span>Sign up</span></a>
                 </div>
                 {% else %}
+                <div>{{ session.username }}</div>
                 <div class="user-nav__icon-box">
                     <a href="/profile" class=""><span>Profile</span></a>
                 </div>
