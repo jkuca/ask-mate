@@ -3,8 +3,7 @@
 <table>
     {% for item in table %}
     <tr>
-       <td class="c1">{{item.username}}</td>
-       <td class="c2">{{item.submission_time}}</td>
+       <td class="">{{item.username}} <a href="/user/{{item.id}}"> <button class="">profile</button></a></td>
        </tr>
     {% endfor %}
 </table>    

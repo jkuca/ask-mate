@@ -1,2 +1,14 @@
-{{user_info}}
-<h1>sad</h1>
+{% extends "base.html" %}
+{% block content %}
+    user's {{user_info.username}}:</br>
+    email: {{user_info.email}}</br>
+    registration time: {{user_info.submission_time}}</br>
+    reputation: {{user_info.reputation}}</br>
+    {{user_info.username}}:</br>
+    asked {{amount_users_asked_questions}} questions</br>
+    gave {{amount_users_answers}} answers</br>
+    wrote {{amount_users_comment}} comments</br>
+
+
+
+{% endblock %}

@@ -155,8 +155,7 @@ def count_votes_answer_down(cursor, id, vote_number):
 
 @ database_common.connection_handler
 def getUsersInfo(cursor):
-    cursor.execute(
-        'SELECT id, username, submission_time, reputation FROM accounts')
+    cursor.execute('SELECT username FROM accounts')
     return cursor.fetchall()
 
 
@@ -192,3 +191,24 @@ def getUserById(cursor, id):
 @database_common.connection_handler
 def updateUserData(cursos, id, email):
     pass
+
+@database_common.connection_handler
+def countUsersAskedQuestionsById(cursor, id):
+    cursor.execute(
+        'SELECT COUNT(*) FROM question WHERE user_id = %s', (id))
+    result = cursor.fetchone()
+    return result['count']
+
+@database_common.connection_handler
+def countUsersAnswersById(cursor, id):
+    cursor.execute(
+        'SELECT COUNT(*) FROM answer WHERE user_id = %s', (id))
+    result = cursor.fetchone()
+    return result['count']
+
+@database_common.connection_handler
+def countUsersCommentsById(cursor, id):
+    cursor.execute(
+        'SELECT COUNT(*) FROM comment WHERE user_id = %s', (id))
+    result = cursor.fetchone()
+    return result['count']
