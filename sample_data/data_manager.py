@@ -42,9 +42,9 @@ def get_edit_question_title(cursor, id_post, title):
 
 
 @database_common.connection_handler
-def add_new_question(cursor, title, message):
-    cursor.execute('INSERT INTO question VALUES (DEFAULT, %s, 0, 0, %s, %s, NULL) RETURNING id;',
-                   (util.get_time(), title, message))
+def add_new_question(cursor, title, message, user_id):
+    cursor.execute('INSERT INTO question VALUES (DEFAULT, %s, 0, 0, %s, %s, NULL, %s) RETURNING id;',
+                   (util.get_time(), title, message, user_id))
     return cursor.fetchone()
 
 
@@ -113,9 +113,9 @@ def get_sorted_comments(cursor, parameter, id: str):
 
 
 @ database_common.connection_handler
-def add_new_comment(cursor, message, id_question='NULL', id_answer='NULL'):
+def add_new_comment(cursor, message, user_id, id_question='NULL', id_answer='NULL'):
     cursor.execute(
-        'INSERT INTO comment VALUES (NULL, %s, %s , %s , %s, 0)', (id_question, id_answer, message, util.get_time()))
+        'INSERT INTO comment VALUES (NULL, %s, %s , %s , %s, 0, %s)', (id_question, id_answer, message, util.get_time(), user_id))
 
 
 @ database_common.connection_handler
@@ -158,7 +158,8 @@ def count_votes_answer_down(cursor, id, vote_number):
 
 @ database_common.connection_handler
 def getUsersInfo(cursor):
-    cursor.execute('SELECT id, username, submission_time FROM accounts')
+    cursor.execute(
+        'SELECT id, username, submission_time, reputation FROM accounts')
     return cursor.fetchall()
 
 
@@ -187,7 +188,7 @@ def addUser(cursor, username, password, email):
 @database_common.connection_handler
 def getUserById(cursor, id):
     cursor.execute(
-        'SELECT username, email, submission_time FROM accounts WHERE id = %s', (id))
+        'SELECT username, email, submission_time, reputation FROM accounts WHERE id = %s', (id))
     return cursor.fetchone()
 
 

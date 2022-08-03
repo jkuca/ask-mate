@@ -2,6 +2,8 @@
 {% block content %}
 
 {% if session %}
+<div class="description">
+<div class="detail">
 <form action="/list">
     <label for="filter_question">Filter question:</label>
     <select name="filter_question" id="Filter_question">
@@ -10,43 +12,42 @@
         <option value="vote_number">Voting</option>
     </select>
     <label for="direction">Direction:</label>
-    <select name="filter_question" id="Filter_question">
+    <select name="direction" id="direction">
         <option value="DESC">Lower</option>
         <option value="ASC">Upper</option>
     </select>
-    <button type="submit">Search</button><br>
+    <button type="submit">Filter</button><br>
 </form>
-{% for element in questions %}
-    <div class="sorting_container">
-    </div>
-    <div class="post__container">
-        <div class="post__header">
-            <span>
-                ID {{element.id}}
-            </span>
-            <span>{{element.title}}</span>
-        </div>
-        <div class="post__message">
-            {{element.message}}
-        </div>
-        <div class="post__left-box">
-           <span>
-               {{element.vote_number}} votes,
-            </span>
-           <span>
-                {{element.view_number}} vievers,
-           </span>
-            <span>
-                {{ element.submission_time }} time
-            </span>
+</div>
 
-        </div>
-        <div class="post__btn-container">
-    <a href="/question/{{element.id}}"> <button class="btn__question">go to question</button></a>
+{% for element in questions %}
+
+
+<div class="detail">
+    <div class="">
+        <a href="/question/{{element.id}}">
+            <h3>{{element.title}}</h3>
+        </a>
     </div>
+    <div class="">
+        {{element.message}}
     </div>
+    <div class="">
+        <span>
+            {{element.vote_number}} votes
+        </span>
+        <span>
+            {{element.view_number}} vievers
+        </span>
+
+    </div>
+    <div class="post__btn-container">
+    </div>
+</div>
 {% endfor %}
+
         <a href="/add_question"> <button class="btn__question">add question</button></a>
+</div>
 
 {% endif %}
 {% endblock %}

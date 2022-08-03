@@ -60,7 +60,8 @@ def add_question():
     if request.method == 'POST':
         title = request.form.get('title')
         message = request.form.get('message')
-        id = data_manager.add_new_question(title, message)
+        id = data_manager.add_new_question(
+            title, message, (str(session['id'])))
         return redirect(url_for('get_question', question_id=id['id']))
     else:
         return render_template('ask_question.html')
@@ -185,7 +186,8 @@ def add_new_comment_question(id_question):
     question = data_manager.get_question_by_id(id_question)
     if request.method == 'POST':
         message = request.form.get('comment')
-        data_manager.add_new_comment(message, id_question=id_question)
+        data_manager.add_new_comment(message, str(
+            session['id'], id_question=id_question))
         return redirect(url_for('get_question', question_id=question['id']))
     return render_template('comment.html', data=question['id'])
 
@@ -196,7 +198,8 @@ def add_new_comment_answer(id_answer):
     answer = data_manager.get_one_answer_by_id(id_answer)
     if request.method == 'POST':
         message = request.form.get('comment')
-        data_manager.add_new_comment(message, id_answer=id_answer)
+        data_manager.add_new_comment(message, str(
+            session['id']), id_answer=id_answer)
         return redirect(url_for('get_question', question_id=answer['question_id']))
     return render_template('comment-answer.html', data=answer)
 
