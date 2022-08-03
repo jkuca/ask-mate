@@ -307,7 +307,7 @@ def register():
 @app.route('/users', methods=['GET', 'POST'])
 def users():
     table = data_manager.getUsersInfo()
-    return render_template('users.html', table=table, user=)
+    return render_template('users.html', table=table)
 
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -329,15 +329,11 @@ def profile():
 @app.route('/user/<string:user_id>')
 def user_profile(user_id):
     user_info = data_manager.getUserById(user_id)
-    amount_users_asked_questions= data_manager.countUsersAskedQuestionsById(user_id)
+    amount_users_asked_questions = data_manager.countUsersAskedQuestionsById(
+        user_id)
     amount_users_answers = data_manager.countUsersAnswersById(user_id)
     amount_users_comment = data_manager.countUsersCommentsById(user_id)
-    return render_template('userprofile.html', user_info=user_info,amount_users_asked_questions=amount_users_asked_questions, amount_users_answers=amount_users_answers,amount_users_comment=amount_users_comment)
-
-@app.route('/user/<string:user_id>/table')
-def table(user_id):
-    user_info = data_manager.getUserById(user_id)
-    return render_template('user_data.html',  user_info=user_info)
+    return render_template('userprofile.html', user_info=user_info, amount_users_asked_questions=amount_users_asked_questions, amount_users_answers=amount_users_answers, amount_users_comment=amount_users_comment)
 
 
 if __name__ == "__main__":
