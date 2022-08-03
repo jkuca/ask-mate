@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="question__container">
+    <div class="">
+        Message: {{data.message}}
+    </div>
+    <br>
+</div>
+
+<div class="get_comment">
+    <form action="/answer/{{data.id}}/new-comment" method="POST">
+        <textarea id="comment" name="comment" rows="3" cols="50" placeholder="Your comment."></textarea><br>
+        <input type="submit" value="submit" />
+    </form>
+</div>
+</div>
+
+{% endblock %}

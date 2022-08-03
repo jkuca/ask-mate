@@ -77,8 +77,9 @@ def get_one_answer_by_id(cursor, id):
 
 @database_common.connection_handler
 def add_new_answer(cursor, message, id_question, user_id):
-    cursor.execute('INSERT INTO answer VALUES (DEFAULT, %s, 0 , %s, "%s", NULL, %s',
-                   (util.get_time(), id_question, message, user_id))
+    cursor.execute(
+        'INSERT INTO answer VALUES (DEFAULT, %s, 0 , %s, %s, NULL, %s, 0)',
+        (util.get_time(), id_question, message, user_id))
 
 
 @ database_common.connection_handler
@@ -109,9 +110,9 @@ def get_sorted_comments(cursor, parameter, id: str):
 
 
 @ database_common.connection_handler
-def add_new_comment(cursor, message, user_id, id_question='NULL', id_answer='NULL'):
+def add_new_comment(cursor, message, user_id, id_question=None, id_answer=None):
     cursor.execute(
-        'INSERT INTO comment VALUES (NULL, %s, %s , %s , %s, 0, %s)', (id_question, id_answer, message, util.get_time(), user_id))
+        'INSERT INTO comment VALUES (DEFAULT, %s, %s , %s , %s, 0, %s)', (id_question, id_answer, message, util.get_time(), user_id))
 
 
 @ database_common.connection_handler
