@@ -143,10 +143,20 @@ def count_votes_answer_up(cursor, id, vote_number):
         'UPDATE answer SET vote_number = %s WHERE id= %s', (id, (vote_number + 1)))
 
 
-@ database_common.connection_handler
+""""@ database_common.connection_handler
 def count_votes_answer_down(cursor, id, vote_number):
     cursor.execute(
-        'UPDATE answer SET vote_number = %s WHERE id= %s', (id, (vote_number - 1)))
+        'UPDATE answer SET vote_number = %s WHERE id= %s', (id, (vote_number - 1))),
+        'UPDATE answer SET vote_number = %s WHERE id= %s', (vote_number - 1, id))"""
+        
+################################################################################################
+    #USERS#
+
+
+@ database_common.connection_handler
+def getUsersInfo(cursor):
+    cursor.execute('SELECT username FROM accounts')
+    return cursor.fetchall()
 
 
 @ database_common.connection_handler

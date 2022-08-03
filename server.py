@@ -300,8 +300,28 @@ def register():
 
 @app.route('/users', methods=['GET', 'POST'])
 def users():
-    table = data_manager.displayUsersList()
+    table = data_manager.getUsersInfo()
     return render_template('users.html', table=table)
+
+
+@app.route('/profile')
+def profile():
+    if session:
+        user_info = data_manager.getUserById(str(session['id']))
+        return render_template('profile.html', user_info=user_info)
+    else:
+        return redirect(url_for("home"))
+
+
+@app.route('/user/<string:user_id>')
+def user_profile(user_id):
+    user_info = data_manager.getUserById(user_id)
+    return render_template('userprofile.html', user_info=user_info)
+
+@app.route('/user/<string:user_id>/table')
+def tables(user_id):
+    user_info = data_manager.getUserById(user_id)
+    return render_template('user_data.html',  user_info=user_info)
 
 
 if __name__ == "__main__":

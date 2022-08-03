@@ -2,10 +2,9 @@
 {% block content %}
 <table>
     {% for item in table %}
-    <TR>
-       <TD class="c1">{{item.username}}</TD>
-       <TD class="c2">{{item.submission_time}}</TD>
-    </TR>
+    <tr>
+       <td class="">{{item.username}} <a href="/user/{{item.id}}/table"> <button class="">user's profile</button></a></td>
+       </tr>
     {% endfor %}
     </table>    
 
