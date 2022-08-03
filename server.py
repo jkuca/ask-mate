@@ -310,11 +310,18 @@ def users():
     return render_template('users.html', table=table, user=)
 
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if session:
-        user_info = data_manager.getUserById(str(session['id']))
-        return render_template('profile.html', user_info=user_info)
+        if request.method == "POST":
+            user_name = request.form['username']
+            email = request.form['email']
+            data_manager.updateUserData(user_name, email)
+            user_data = data_manager.getUserById(str(session['id']))
+            return render_template('profile.html', user_info=user_data)
+        else:
+            user_data = data_manager.getUserById(str(session['id']))
+            return render_template('profile.html', user_info=user_data)
     else:
         return redirect(url_for("home"))
 

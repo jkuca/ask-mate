@@ -15,7 +15,7 @@ def get_sorted_questions(cursor, parameter, value_parameter):
 @database_common.connection_handler
 def get_question_by_id(cursor, id):
     cursor.execute('SELECT * FROM public.question WHERE id = %s', (id))
-    return cursor.fetchone()
+    return cursor.fetchon
 
 
 @database_common.connection_handler
@@ -216,3 +216,9 @@ def countUsersCommentsById(cursor, id):
         'SELECT COUNT(*) FROM comment WHERE user_id = %s', (id))
     result = cursor.fetchone()
     return result['count']
+def updateUserData(cursor, username, email):
+    cursor.execute(
+        'UPDATE accounts SET username = (%s), email = (%s);', (username, email))
+
+
+
