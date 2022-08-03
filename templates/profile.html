@@ -7,6 +7,11 @@
     <title>{{ user_info.id }}</title>
 </head>
 <body>
-    
+{% extends "base.html" %}
+{% block content %}
+
+    {{ user_info }}
+
+{% endblock %}
 </body>
 </html>

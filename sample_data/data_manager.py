@@ -192,5 +192,5 @@ def getUserById(cursor, id):
 
 
 @database_common.connection_handler
-def update(cursos, id, email):
+def updateUserData(cursos, id, email):
     pass
