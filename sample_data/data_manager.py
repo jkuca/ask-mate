@@ -185,7 +185,7 @@ def addUser(cursor, username, password, email):
 @database_common.connection_handler
 def getUserById(cursor, id):
     cursor.execute(
-        'SELECT username, email, submission_time, reputation FROM accounts WHERE id = %s', (id))
+        'SELECT username, email, submission_time, reputation, id FROM accounts WHERE id = %s', (id))
     return cursor.fetchone()
 
 
