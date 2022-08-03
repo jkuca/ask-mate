@@ -183,3 +183,8 @@ def getUserById(cursor, id):
     cursor.execute(
         'SELECT username, email, submission_time FROM accounts WHERE id = %s', (id))
     return cursor.fetchone()
+
+
+@database_common.connection_handler
+def update(cursos, id, email):
+    pass

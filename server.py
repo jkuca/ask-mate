@@ -309,8 +309,11 @@ def users():
 
 @app.route('/profile')
 def profile():
-    user_info = data_manager.getUserById(str(session['id']))
-    return render_template('profile.html', user_info=user_info)
+    if session:
+        user_info = data_manager.getUserById(str(session['id']))
+        return render_template('profile.html', user_info=user_info)
+    else:
+        return redirect(url_for("home"))
 
 
 @app.route('/user/<string:user_id>')
