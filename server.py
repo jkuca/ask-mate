@@ -100,7 +100,13 @@ def delete_question(question_id):
 @ app.route("/question/<string:question_id>/vote-up")
 def vote_question_up(question_id):
     question = data_manager.get_question_by_id(question_id)
+    user_reputation = data_manager.getUserReputationById(str(question['user_id']))
+
+    user_reputation = 5 + int(user_reputation)
+
     data_manager.count_votes_up(question_id, question['vote_number'])
+    data_manager.updateUserReputation(question['user_id'], user_reputation)
+
     blink_url = "/question/" + str(question_id)
     return redirect(blink_url, 302)
 
@@ -110,7 +116,13 @@ def vote_question_up(question_id):
 @ app.route("/question/<string:question_id>/vote-down")
 def vote_question_down(question_id):
     question = data_manager.get_question_by_id(question_id)
+    user_reputation = data_manager.getUserReputationById(str(question['user_id']))
+
+    user_reputation = int(user_reputation) - 2
+
     data_manager.count_votes_down(question_id, question['vote_number'])
+    data_manager.updateUserReputation(question['user_id'], user_reputation)
+
     blink_url = "/question/" + str(question_id)
     return redirect(blink_url, 302)
 
