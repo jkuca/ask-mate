@@ -50,9 +50,11 @@
                         {% endif %}
                     </div>
                     <div class="">
+                        {% if data.user_id == session.id %}
+                        <a href="/marked/{{item.id}}" ><button> F </button></a>
+                        {% endif %}
                         <a href="/answer/{{item.id}}/vote-down"> <button class="btn__question">&lt;</button></a>
                         votes: {{item.vote_number}}
-    
                         <a href="/answer/{{item.id}}/vote-up"> <button class="btn__question">&gt;</button></a><br>
                     </div>
                     <a href="/answer/{{item.id}}/edit"> <button class="btn__question">edit answer

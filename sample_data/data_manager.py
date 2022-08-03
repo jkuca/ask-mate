@@ -15,7 +15,7 @@ def get_sorted_questions(cursor, parameter, value_parameter):
 @database_common.connection_handler
 def get_question_by_id(cursor, id):
     cursor.execute('SELECT * FROM public.question WHERE id = %s', (id))
-    return cursor.fetchon
+    return cursor.fetchone()
 
 
 @database_common.connection_handler
@@ -181,7 +181,7 @@ def getUserByUsername(cursor, username):
 
 @ database_common.connection_handler
 def addUser(cursor, username, password, email):
-    cursor.execute('INSERT INTO accounts VALUES (DEFAULT, %s, %s, %s, %s )',
+    cursor.execute('INSERT INTO accounts VALUES (DEFAULT, %s, %s, %s, %s, 0 )',
                    (username, password, email, util.get_time()))
 
 

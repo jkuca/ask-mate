@@ -337,6 +337,15 @@ def user_profile(user_id):
     return render_template('userprofile.html', user_info=user_info, amount_users_asked_questions=amount_users_asked_questions, amount_users_answers=amount_users_answers, amount_users_comment=amount_users_comment)
 
 
+@app.route('/marked/<string:id>')
+def marked(id):
+    answers = data_manager.get_answer_by_id(id)
+    if not answers.accepted:
+        pass  # update answer state accepted
+    else:
+        pass  # update answer state accepted to not accepted
+
+
 if __name__ == "__main__":
     app.run(
         debug=True,  # Allow verbose error reports
