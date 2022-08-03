@@ -1,9 +1,10 @@
 from flask import Flask, request, render_template, redirect, url_for, session
 from sample_data import data_manager
+import secrets
 import re
 
 app = Flask(__name__)
-app.secret_key = '>xG(<-FS]0i{3&)h@oEE#vkC$Qm3=/@6nUu]vE#-agp*j+G!]Fs+Qw#{:gSZ&YS'
+app.secret_key = secrets.token_hex()
 # ADD displaying 5 latest questions
 
 ###################################################
