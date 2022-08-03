@@ -9,8 +9,17 @@
 <body>
 {% extends "base.html" %}
 {% block content %}
-
-    {{ user_info }}
+    <div class="profile_user_display">
+    <ul>
+        <li class="user_data">Login: {{ user_info.username }}</li>
+        <li class="user_data">Email: {{ user_info.email }}</li>
+    </ul>
+        <form action="/profile" method="POST">
+                <div class="user_change_data"><input type="text" class="search__input" name="username" placeholder={{ user_info.username }} value={{ user_info.username }}></div>
+                <div class="user_change_data"><input type="text" class="search__input" name="email" placeholder={{ user_info.email }} value={{ user_info.email }}></div>
+                <input class="" type="submit" value="submit" />
+        </form>
+    </div>
 
 {% endblock %}
 </body>
