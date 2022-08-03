@@ -79,6 +79,12 @@ def get_one_answer_by_id(cursor, id):
     return cursor.fetchone()
 
 
+@database_common.connection_handler
+def add_new_answer(cursor, message, id_question, user_id):
+    cursor.execute('INSERT INTO answer VALUES (DEFAULT, %s, 0 , %s, "%s", NULL, %s',
+                   (util.get_time(), id_question, message, user_id))
+
+
 @ database_common.connection_handler
 def edit_answer(cursor, answer_id, edited_data):
     cursor.execute('UPDATE answer SET submission_time = %s, message = %s WHERE id=%s',

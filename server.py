@@ -124,7 +124,7 @@ def vote_question_down(question_id):
 def add_answer(id_post):
     if request.method == 'POST':
         message = request.form.get('message')
-        data_manager.add_new_answer(message, id_post)
+        data_manager.add_new_answer(message, id_post, str(session['id']))
         return redirect(url_for('get_question', question_id=id_post))
     return render_template('add_answer.html', data=id_post)
 
