@@ -48,7 +48,7 @@ def get_question(question_id):
     comments_answer = []
     for i in answers:
         asa = data_manager.get_sorted_comments(
-            parameter='answer_id', id=str(i['id']))
+            parameter='answer_id', id=str(['id']))
         comments_answer.append(asa)
     return render_template('display_question.html', data=question, answers=answers, comments=comments, comments_answer=comments_answer)
 
