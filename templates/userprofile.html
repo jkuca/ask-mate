@@ -12,12 +12,12 @@
     
     {{user_info.username}}'s questions:
     {% for question in all_users_questions %}
-        <p>id: {{question.id}}, added: {{question.submission_time}}, views: {{question.view_number}}, votes: {{question.vote_number}}, title: {{question.title}}, question: {{question.message}}, image: {{question.image}} </p>
+        <p>id: {{question.id}}, added: {{question.submission_time}}, views: {{question.view_number}}, votes: {{question.vote_number}}, title: {{question.title}}, question: {{question.message}}, image: {{question.image}} <a href="/question/{{question.id}}"> <button class="">check</button></a> </p>
     {%endfor %}
     </br>
     {{user_info.username}}'s answers:
     {% for answer in all_users_answers %}
-        <p>id: {{answer.id}}, added: {{answer.submission_time}}, views: {{answer.view_number}}, votes: {{answer.vote_number}}, answer: {{answer.message}}, image: {{answer.image}} </p>
+        <p>id: {{answer.id}}, added: {{answer.submission_time}}, views: {{answer.view_number}}, votes: {{answer.vote_number}}, answer: {{answer.message}}, image: {{answer.image}} <a href="/question/{{question.id}}"> <button class="">check</button></a> </p>
     {%endfor %}
     </br>
     {{user_info.username}}'s comments:
