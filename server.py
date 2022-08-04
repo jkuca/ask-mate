@@ -102,7 +102,8 @@ def delete_question(question_id):
 @ app.route("/question/<string:question_id>/vote-up")
 def vote_question_up(question_id):
     question = data_manager.get_question_by_id(question_id)
-    user_reputation = data_manager.getUserReputationById(str(question['user_id']))
+    user_reputation = data_manager.getUserReputationById(
+        str(question['user_id']))
 
     user_reputation = int(user_reputation['reputation']) + 5
 
@@ -118,7 +119,8 @@ def vote_question_up(question_id):
 @ app.route("/question/<string:question_id>/vote-down")
 def vote_question_down(question_id):
     question = data_manager.get_question_by_id(question_id)
-    user_reputation = data_manager.getUserReputationById(str(question['user_id']))
+    user_reputation = data_manager.getUserReputationById(
+        str(question['user_id']))
 
     user_reputation = int(user_reputation['reputation']) - 2
 
@@ -177,7 +179,8 @@ def vote_answer_up(answer_id):
     data_answer = data_manager.get_one_answer_by_id(answer_id)
     data_manager.count_votes_answer_up(answer_id, data_answer['vote_number'])
 
-    user_reputation = data_manager.getUserReputationById(str(data_answer['user_id']))
+    user_reputation = data_manager.getUserReputationById(
+        str(data_answer['user_id']))
 
     value = util.is_accepted(data_answer)
 
@@ -195,7 +198,8 @@ def vote_answer_down(answer_id):
     answer = data_manager.get_one_answer_by_id(answer_id)
     data_manager.count_votes_answer_down(answer_id, answer['vote_number'])
 
-    user_reputation = data_manager.getUserReputationById(str(answer['user_id']))
+    user_reputation = data_manager.getUserReputationById(
+        str(answer['user_id']))
     user_reputation = int(user_reputation['reputation']) - 2
 
     data_manager.updateUserReputation(answer['user_id'], user_reputation)
@@ -363,5 +367,5 @@ def user_profile(user_id):
 if __name__ == "__main__":
     app.run(
         debug=True,  # Allow verbose error reports
-        port=8080  # Set custom port
+        port=5500  # Set custom port
     )
