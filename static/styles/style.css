@@ -347,13 +347,6 @@ body {
     }
 }
 
-<<<<<<< HEAD
-=======
-.adam-glupol{
-    margin-bottom: 2rem;
-}
-
->>>>>>> reputation
 .user_data {
     margin-left: 25px;
     margin-bottom: 5px;
@@ -373,30 +366,7 @@ body {
     margin-right: -3.25rem;
 }
 
-.button_profile {
-	box-shadow: 3px 4px 0px 0px #899599;
-	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
-	background-color:#ededed;
-	border-radius:15px;
-	border:1px solid #d6bcd6;
-	display:inline-block;
-	cursor:pointer;
-	color:  var(--color-grey-dark-2);
-	font-family: Arial;
-	font-size:15px;
-	padding:7px 25px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #e1e2ed;
-    margin-left: 18%
-}
-.button_profile:hover {
-	background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
-	background-color:#bab1ba;
-}
-.button_profile:active {
-	position:relative;
-	top:1px;
-}
+
 
 
 .profile_user_display {
@@ -415,15 +385,41 @@ body {
     margin-bottom: 2rem;
     margin-right: 2rem;
 }
+.button_profile {
+    box-shadow: 3px 4px 0px 0px #899599;
+    background: linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
+    background-color: #ededed;
+    border-radius: 15px;
+    border: 1px solid #d6bcd6;
+    display: inline-block;
+    cursor: pointer;
+    color: var(--color-grey-dark-2);
+    font-family: Arial;
+    font-size: 15px;
+    padding: 7px 25px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #e1e2ed;
+    margin-left: 18%
+}
+
+.button_profile:hover {
+    background: linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
+    background-color: #bab1ba;
+}
+
+.button_profile:active {
+    position: relative;
+    top: 1px;
+}
 
 .button_question {
-    background-color: var(--color-grey-light-1:);
+    background-color: var(--color-grey-light-1);
     border: 1px solid transparent;
     border-radius: 0;
     color: #373737;
     cursor: pointer;
     display: inline-block;
-    font-size: .9000rem;
+    font-size: .9rem;
     font-weight: 400;
     line-height: 1.5;
     padding: 0.375rem 0.75rem;
@@ -431,7 +427,6 @@ body {
     transition: width 2s;
     width: 80px;
     height: 15px;
-    user-select: none;
     vertical-align: middle;
     border-radius:15px;
 }

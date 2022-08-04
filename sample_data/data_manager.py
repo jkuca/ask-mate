@@ -66,7 +66,7 @@ def delete_question(cursor, question_id):
 @ database_common.connection_handler
 def get_answer_by_id(cursor, id):
     cursor.execute('SELECT * FROM answer WHERE question_id= %s', (id))
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @ database_common.connection_handler
