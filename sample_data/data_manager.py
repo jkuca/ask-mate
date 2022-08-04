@@ -36,6 +36,11 @@ def get_edit_question_title(cursor, id_post, title):
     cursor.execute(
         'UPDATE question SET title = %s WHERE id = %s ', (title, id_post))
 
+@database_common.connection_handler
+def get_edit_tag(cursor, id_post, tag):
+    cursor.execute(
+        'UPDATE question SET tag = %s WHERE id = %s ', (tag, id_post))
+
 
 @database_common.connection_handler
 def add_new_question(cursor, title, message, user_id):
@@ -225,5 +230,41 @@ def countUsersAnswersById(cursor, id):
 def countUsersCommentsById(cursor, id):
     cursor.execute(
         'SELECT COUNT(*) FROM comment WHERE user_id = %s', (id))
-    result = cursor.fetchone()
+    result = cursor.fetchall()
     return result['count']
+
+@database_common.connection_handler
+def assignTagToQuestion(cursor, tag_value, question_id):
+    cursor.execute(
+        'INSERT INTO question_tag VALUES ((%s), (%s))', (question_id, tag_value))
+
+
+@database_common.connection_handler
+def changeTagQuestion(cursor, tag_value, question_id):
+    cursor.execute(
+        'UPDATE question_tag SET tag_id = (%s) WHERE question_id = (%s)', (tag_value, question_id,))
+
+
+##################
+## TAG QUESTION ##
+##################
+
+
+@database_common.connection_handler
+def deleteSpecificTagQuestion(cursor, tag_value, question_id):
+    cursor.execute(
+        'DELETE FROM question_tag WHERE question_id = (%s) and tag_id = (%s)', (question_id, tag_value))
+
+
+@database_common.connection_handler
+def deleteAllTagQuestionForQuestion(cursor, question_id):
+    cursor.execute(
+        'DELETE FROM question_tag WHERE question_id = (%s)', (question_id))
+
+
+@database_common.connection_handler
+def getQuestionTagById(cursor, question_id):
+    cursor.execute(
+        'SELECT tag_id from question_tag WHERE question_id = (%s)', (question_id))
+    return cursor.fetchall()
+
