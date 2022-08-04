@@ -188,7 +188,7 @@ def addUser(cursor, username, password, email):
 @database_common.connection_handler
 def getUserById(cursor, id):
     cursor.execute(
-        'SELECT username, email, submission_time, reputation FROM accounts WHERE id = %s', (id))
+        'SELECT id, username, email, submission_time, reputation FROM accounts WHERE id = %s', (id))
     return cursor.fetchone()
 
 
@@ -216,6 +216,25 @@ def countUsersCommentsById(cursor, id):
         'SELECT COUNT(*) FROM comment WHERE user_id = %s', (id))
     result = cursor.fetchone()
     return result['count']
+
+@database_common.connection_handler
+def allUsersQuestionsById(cursor, id):
+    cursor.execute(
+        'SELECT id FROM question WHERE user_id = %s', (id))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def allUsersCommentsById(cursor, id):
+    cursor.execute(
+        'SELECT * FROM comment WHERE user_id = %s', (id))
+    return cursor.fetchall()
+
+@database_common.connection_handler
+def allUsersAnswersById(cursor, id):
+    cursor.execute(
+        'SELECT * FROM answer WHERE user_id = %s', (id))
+    return cursor.fetchall()
+
 def updateUserData(cursor, username, email):
     cursor.execute(
         'UPDATE accounts SET username = (%s), email = (%s);', (username, email))

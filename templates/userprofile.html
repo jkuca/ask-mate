@@ -1,13 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-    user's {{user_info.username}}:</br>
+    {{user_info.username}}'s:</br>
+    id: {{user_info.id}}</br>
     email: {{user_info.email}}</br>
-    registration time: {{user_info.submission_time}}</br>
+    registration date: {{user_info.submission_time}}</br>
     reputation: {{user_info.reputation}}</br>
     {{user_info.username}}:</br>
     asked {{amount_users_asked_questions}} questions</br>
     gave {{amount_users_answers}} answers</br>
-    wrote {{amount_users_comment}} comments</br>
+    wrote {{amount_users_comment}} comments</br></br>
+    
+    {{user_info.username}}'s questions:
+    {% for question in all_users_questions %}
+        <p>id: {{question.id}}, added: {{question.submission_time}}, views: {{question.view_number}}, votes: {{question.vote_number}}, title: {{question.title}}, question: {{question.message}}, image: {{question.image}} </p>
+    {%endfor %}
+    </br>
+    {{user_info.username}}'s answers:
+    {% for answer in all_users_answers %}
+        <p>id: {{answer.id}}, added: {{answer.submission_time}}, views: {{answer.view_number}}, votes: {{answer.vote_number}}, answer: {{answer.message}}, image: {{answer.image}} </p>
+    {%endfor %}
+    </br>
+    {{user_info.username}}'s comments:
+    {% for comment in all_users_comments %}
+        <p>id: {{comment.id}}, question's id: {{comment.question_id}}, answer's id: {{comment.answer_id}} comment: {{answer.message}},added: {{comment.submission_time}}, edited: {{comment.edited_count}} times </p>
+    {%endfor %}
+
 
 
 
