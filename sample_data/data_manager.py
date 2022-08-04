@@ -159,7 +159,7 @@ def count_votes_answer_down(cursor, id, vote_number):
 
 @ database_common.connection_handler
 def getUsersInfo(cursor):
-    cursor.execute('SELECT username FROM accounts')
+    cursor.execute('SELECT id, username FROM accounts')
     return cursor.fetchall()
 
 
