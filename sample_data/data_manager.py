@@ -71,7 +71,7 @@ def delete_question(cursor, question_id):
 @ database_common.connection_handler
 def get_answer_by_id(cursor, id):
     cursor.execute('SELECT * FROM answer WHERE question_id= %s', (id))
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @ database_common.connection_handler
@@ -193,7 +193,7 @@ def addUser(cursor, username, password, email):
 @database_common.connection_handler
 def getUserById(cursor, id):
     cursor.execute(
-        'SELECT username, email, submission_time, reputation, id FROM accounts WHERE id = %s', (id))
+        'SELECT id, username, email, submission_time, reputation FROM accounts WHERE id = %s', (id))
     return cursor.fetchone()
 
 
@@ -268,3 +268,41 @@ def getQuestionTagById(cursor, question_id):
         'SELECT tag_id from question_tag WHERE question_id = (%s)', (question_id))
     return cursor.fetchall()
 
+
+@database_common.connection_handler
+def allUsersQuestionsById(cursor, id):
+    cursor.execute(
+        'SELECT id FROM question WHERE user_id = %s', (id))
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def allUsersCommentsById(cursor, id):
+    cursor.execute(
+        'SELECT * FROM comment WHERE user_id = %s', (id))
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def allUsersAnswersById(cursor, id):
+    cursor.execute(
+        'SELECT * FROM answer WHERE user_id = %s', (id))
+    return cursor.fetchall()
+
+
+@database_common.connection_handler
+def updateUserData(cursor, username, email):
+    cursor.execute(
+        'UPDATE accounts SET username = (%s), email = (%s);', (username, email))
+
+
+@database_common.connection_handler
+def updateAnswerAcceptingState(cursor, id, value):
+    cursor.execute(
+        'UPDATE answers SET accepted = %s WHERE id= %s', (value, id))
+
+
+@database_common.connection_handler
+def updateUserReputation(cursor, user_id, value):
+    cursor.execute(
+        'UPDATE accounts SET reputation = (%s) WHERE id = (%s)', (value, user_id))
