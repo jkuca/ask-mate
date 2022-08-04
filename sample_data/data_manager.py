@@ -150,7 +150,7 @@ def count_votes_answer_up(cursor, id, vote_number):
 @ database_common.connection_handler
 def count_votes_answer_down(cursor, id, vote_number):
     cursor.execute(
-        'UPDATE answer SET vote_number = %s WHERE id= %s', (vote_number - 1, id))
+        'UPDATE answer SET vote_number = %s WHERE id= %s;', (vote_number - 1, id))
 
 
 ################################################################################################
@@ -188,7 +188,14 @@ def addUser(cursor, username, password, email):
 @database_common.connection_handler
 def getUserById(cursor, id):
     cursor.execute(
-        'SELECT username, email, submission_time, reputation FROM accounts WHERE id = %s', (id))
+        'SELECT username, email, submission_time, reputation, id FROM accounts WHERE id = %s', (id))
+    return cursor.fetchone()
+
+
+@database_common.connection_handler
+def getUserReputationById(cursor, id):
+    cursor.execute(
+        'SELECT reputation FROM accounts WHERE id = %s', (id))
     return cursor.fetchone()
 
 

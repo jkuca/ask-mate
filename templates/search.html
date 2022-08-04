@@ -23,7 +23,7 @@
             <td>{{ question.vote_number }}</td>
             <td>{{ question.title }}</td>
             <td>{{ question.message }}</td>
-            <td><a href="">See question</a></td>
+            <td><a href="/question/{{ question.id }}">See question</a></td>
         </tr>
     {% endfor %}
     {% else %}

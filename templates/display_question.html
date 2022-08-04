@@ -41,14 +41,23 @@
     
             <div class="answers__container">
                 {% for item in answers %}
-                <b>ANSWER</b>
+                <div class="answer_sign">
+                    <div class="answer_text"> ANSWER</div>
+                {% if item.accepted == True %}
+                    - accepted
+                {% endif %}
+                </div>
+
                 <div class="answers__container-answer">
                     <div class="">
                         {{item.message}}
+
+                    </div>
+
                         {% if item.image %}
                         {{item.image}}
                         {% endif %}
-                    </div>
+
                     <div class="">
                         {% if data.user_id == session.id %}
                         <a href="/marked/{{item.id}}" ><button> F </button></a>
@@ -57,11 +66,12 @@
                         votes: {{item.vote_number}}
                         <a href="/answer/{{item.id}}/vote-up"> <button class="btn__question">&gt;</button></a><br>
                     </div>
-                    <a href="/answer/{{item.id}}/edit"> <button class="btn__question">edit answer
+
+                    <a href="/answer/{{item.id}}/edit"> <button class="button_question">edit answer
                         </button></a>
-                    <a href="/answer/{{item.id}}/delete"> <button class="btn__question">delete answer
+                    <a href="/answer/{{item.id}}/delete"> <button class="button_question">delete answer
                         </button></a>
-                    <a href="/answer/{{item.id}}/new-comment"> <button class="btn__question">add comment
+                    <a href="/answer/{{item.id}}/new-comment"> <button class="button_question">add comment
                         </button></a>
     
                     {% for com in comments_answer %}
