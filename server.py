@@ -1,6 +1,4 @@
 from flask import Flask, request, render_template, redirect, url_for, session
-
-import util
 from sample_data import data_manager
 import secrets
 import re
@@ -103,14 +101,7 @@ def delete_question(question_id):
 @ app.route("/question/<string:question_id>/vote-up")
 def vote_question_up(question_id):
     question = data_manager.get_question_by_id(question_id)
-    user_reputation = data_manager.getUserReputationById(
-        str(question['user_id']))
-
-    user_reputation = int(user_reputation['reputation']) + 5
-
     data_manager.count_votes_up(question_id, question['vote_number'])
-    data_manager.updateUserReputation(question['user_id'], user_reputation)
-
     blink_url = "/question/" + str(question_id)
     return redirect(blink_url, 302)
 
@@ -120,14 +111,7 @@ def vote_question_up(question_id):
 @ app.route("/question/<string:question_id>/vote-down")
 def vote_question_down(question_id):
     question = data_manager.get_question_by_id(question_id)
-    user_reputation = data_manager.getUserReputationById(
-        str(question['user_id']))
-
-    user_reputation = int(user_reputation['reputation']) - 2
-
-    data_manager.count_votes_up(question_id, question['vote_number'])
-    data_manager.updateUserReputation(question['user_id'], user_reputation)
-
+    data_manager.count_votes_down(question_id, question['vote_number'])
     blink_url = "/question/" + str(question_id)
     return redirect(blink_url, 302)
 
@@ -177,18 +161,9 @@ def delete_answer(id_answer):
 
 @ app.route("/answer/<string:answer_id>/vote-up")
 def vote_answer_up(answer_id):
-    data_answer = data_manager.get_one_answer_by_id(answer_id)
-    data_manager.count_votes_answer_up(answer_id, data_answer['vote_number'])
-
-    user_reputation = data_manager.getUserReputationById(
-        str(data_answer['user_id']))
-
-    value = util.is_accepted(data_answer)
-
-    user_reputation = int(user_reputation['reputation']) + value
-    data_manager.updateUserReputation(data_answer['user_id'], user_reputation)
-
-    blink_url = "/question/" + str(data_answer['question_id'])
+    answer = data_manager.get_one_answer_by_id(answer_id)
+    data_manager.count_votes_answer_up(answer_id, answer['vote_number'])
+    blink_url = "/question/" + str(answer['question_id'])
     return redirect(blink_url, 302)
 
 ############## Answer Vote Down ################
@@ -349,12 +324,16 @@ def profile():
         if request.method == "POST":
             user_name = request.form['username']
             email = request.form['email']
-            data_manager.updateUserData(user_name, email)
-            user_data = data_manager.getUserById(str(session['id']))
-            return render_template('profile.html', user_info=user_data)
+            account = data_manager.getUserByUsername(user_name)
+            if account:
+                msg = 'Account already exists !'
+            else:
+                data_manager.updateUserData(user_name, email)
+                user_data = data_manager.getUserById(str(session['id']))
+                return render_template('profile.html', user_info=user_data)
         else:
             user_data = data_manager.getUserById(str(session['id']))
-            return render_template('profile.html', user_info=user_data)
+            return render_template('profile.html', user_info=user_data, msg=msg)
     else:
         return redirect(url_for("home"))
 
@@ -366,24 +345,28 @@ def user_profile(user_id):
         user_id)
     amount_users_answers = data_manager.countUsersAnswersById(user_id)
     amount_users_comment = data_manager.countUsersCommentsById(user_id)
-    all_users_questions = data_manager.allUsersQuestionsById(user_id)
-    all_users_comments = data_manager.allUsersCommentsById(user_id)
-    all_users_answers = data_manager.allUsersAnswersById(user_id)
-    return render_template('userprofile.html', user_info=user_info,amount_users_asked_questions=amount_users_asked_questions, amount_users_answers=amount_users_answers,
-    amount_users_comment=amount_users_comment,  all_users_answers= all_users_answers,  all_users_questions=all_users_questions,  all_users_comments= all_users_comments)
+    return render_template('userprofile.html', user_info=user_info, amount_users_asked_questions=amount_users_asked_questions, amount_users_answers=amount_users_answers, amount_users_comment=amount_users_comment)
 
 
 @app.route('/marked/<string:id>')
 def marked(id):
     answers = data_manager.get_answer_by_id(id)
     if not answers.accepted:
-        pass  # update answer state accepted
+        user_reputation = data_manager.getUserReputationById(
+            str(answers['user_id']))
+        user_reputation = int(user_reputation['reputation']) + 10
+        data_manager.updateUserReputation(answers['user_id'], user_reputation)
+        data_manager.updateAnswerAcceptingState(id, 1)
     else:
-        pass  # update answer state accepted to not accepted
+        user_reputation = data_manager.getUserReputationById(
+            str(answers['user_id']))
+        user_reputation = int(user_reputation['reputation']) - 10
+        data_manager.updateUserReputation(answers['user_id'], user_reputation)
+        data_manager.updateAnswerAcceptingState(id, 0)
 
 
 if __name__ == "__main__":
     app.run(
         debug=True,  # Allow verbose error reports
-        port=5500  # Set custom port
+        port=5000  # Set custom port
     )

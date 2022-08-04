@@ -228,11 +228,13 @@ def countUsersCommentsById(cursor, id):
     result = cursor.fetchone()
     return result['count']
 
+
 @database_common.connection_handler
 def allUsersQuestionsById(cursor, id):
     cursor.execute(
         'SELECT id FROM question WHERE user_id = %s', (id))
     return cursor.fetchall()
+
 
 @database_common.connection_handler
 def allUsersCommentsById(cursor, id):
@@ -240,15 +242,19 @@ def allUsersCommentsById(cursor, id):
         'SELECT * FROM comment WHERE user_id = %s', (id))
     return cursor.fetchall()
 
+
 @database_common.connection_handler
 def allUsersAnswersById(cursor, id):
     cursor.execute(
         'SELECT * FROM answer WHERE user_id = %s', (id))
     return cursor.fetchall()
 
+
 def updateUserData(cursor, username, email):
     cursor.execute(
         'UPDATE accounts SET username = (%s), email = (%s);', (username, email))
 
 
-
+def updateAnswerAcceptingState(cursor, id, value):
+    cursor.execute(
+        'UPDATE answers SET accepted = %s WHERE id= %s', (value, id))
