@@ -250,11 +250,19 @@ def allUsersAnswersById(cursor, id):
     return cursor.fetchall()
 
 
+@database_common.connection_handler
 def updateUserData(cursor, username, email):
     cursor.execute(
         'UPDATE accounts SET username = (%s), email = (%s);', (username, email))
 
 
+@database_common.connection_handler
 def updateAnswerAcceptingState(cursor, id, value):
     cursor.execute(
         'UPDATE answers SET accepted = %s WHERE id= %s', (value, id))
+
+
+@database_common.connection_handler
+def updateUserReputation(cursor, user_id, value):
+    cursor.execute(
+        'UPDATE accounts SET reputation = (%s) WHERE id = (%s)', (value, user_id))
