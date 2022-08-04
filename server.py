@@ -1,4 +1,6 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, flash
+
+import util
 from sample_data import data_manager
 import secrets
 import re
@@ -365,8 +367,27 @@ def marked(id):
         data_manager.updateAnswerAcceptingState(id, 0)
 
 
+@app.route('/question/<string:id_question>/tag', methods=['GET', 'POST'])
+def tag(id_question):
+    if request.method == 'POST':
+        tag_value = request.form['tag']
+        if util.exists_specify_tag(id_question, tag_value):
+            question_data = data_manager.get_question_by_id(id_question)
+            flash("This tag exists for this question")
+            return render_template('tag.html', data = question_data)
+        else: 
+            data_manager.assignTagToQuestion(tag_value, id_question)
+            return redirect(url_for('get_question', question_id = id_question))
+    else:    
+        question_data = data_manager.get_question_by_id(id_question)
+        return render_template('tag.html', data = question_data)
+    
+
+
 if __name__ == "__main__":
     app.run(
         debug=True,  # Allow verbose error reports
         port=5000  # Set custom port
     )
+
+#naprawić redirect new-coment

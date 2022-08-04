@@ -2,14 +2,21 @@
 {% extends "base.html" %}
 {% block content %}
     <div>
-        <h1>Edit question ID: {{ data.id }}</h1>
+        <h1>Edit question ID: {{ data.id }}</h1><br>
         <form action="/question/{{ data.id }}/edit" method="POST">
-            <label for="title">Tittle:</label>
+            <label for="title">Tittle:</label><br>
             <textarea name="title" rows="1" cols="85" placeholder="{{ data.title }}"></textarea><br>
-            <label for="message">Question:</label>
-            <textarea name="message" rows="4" cols="85">{{ data.message }}</textarea><br>
-            <input type="submit" value="submit" />
+            <label for="message">Question:</label><br>
+            <textarea name="message" rows="10" cols="140">{{ data.message }}</textarea><br>
+            <label for="tag">Tag</label><br>
+            <select name="tag" id="tag">
+                <option value="1">Python</option>
+                <option value="2">SQL</option>
+                <option value="3">css</option>
+            </select><br><br>
+            </div><input type="submit" class="button_profile btn_btn-edit-question" value="Submit">
+            <a href="/question"></a><button class="button_profile btn_btn-edit-question">Main page</button></a>
         </form>
     </div>
-    <a href="/"> <button class="btn_main_page">Main page</button></a>
+    
 {% endblock %}

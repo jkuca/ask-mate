@@ -1,4 +1,5 @@
 from datetime import datetime
+from sample_data import data_manager
 
 
 def get_time():
@@ -10,3 +11,11 @@ def is_accepted(data):
         return 15
     else:
         return 10
+
+
+def exists_specify_tag(question_id, tag):
+    question_tag = data_manager.getQuestionTagById(question_id)
+    for value in question_tag:
+        if value['tag_id'] == int(tag):
+            return True
+    return False
