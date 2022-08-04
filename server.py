@@ -366,7 +366,11 @@ def user_profile(user_id):
         user_id)
     amount_users_answers = data_manager.countUsersAnswersById(user_id)
     amount_users_comment = data_manager.countUsersCommentsById(user_id)
-    return render_template('userprofile.html', user_info=user_info, amount_users_asked_questions=amount_users_asked_questions, amount_users_answers=amount_users_answers, amount_users_comment=amount_users_comment)
+    all_users_questions = data_manager.allUsersQuestionsById(user_id)
+    all_users_comments = data_manager.allUsersCommentsById(user_id)
+    all_users_answers = data_manager.allUsersAnswersById(user_id)
+    return render_template('userprofile.html', user_info=user_info,amount_users_asked_questions=amount_users_asked_questions, amount_users_answers=amount_users_answers,
+    amount_users_comment=amount_users_comment,  all_users_answers= all_users_answers,  all_users_questions=all_users_questions,  all_users_comments= all_users_comments)
 
 
 @app.route('/marked/<string:id>')
