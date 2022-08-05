@@ -194,11 +194,14 @@ def vote_answer_down(answer_id):
 @ app.route("/question/<string:id_question>/new-comment", methods=['POST', 'GET'])
 def add_new_comment_question(id_question):
     question = data_manager.get_question_by_id(id_question)
+
     if request.method == 'POST':
         message = request.form.get('comment')
+        print(f"{session['id']}")
         data_manager.add_new_comment(message,
                                      session['id'], id_question=id_question)
         return redirect(url_for('get_question', question_id=question['id']))
+    print("else")
     return render_template('comment.html', data=question['id'])
 
 
@@ -282,6 +285,7 @@ def logout():
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('username', None)
+    print(session)
     return redirect(url_for('login'))
 
 
@@ -335,7 +339,7 @@ def profile():
                 return render_template('profile.html', user_info=user_data)
         else:
             user_data = data_manager.getUserById(str(session['id']))
-            return render_template('profile.html', user_info=user_data, msg=msg)
+            return render_template('profile.html', user_info=user_data)
     else:
         return redirect(url_for("home"))
 
@@ -369,6 +373,7 @@ def marked(id):
 
 @app.route('/question/<string:id_question>/tag', methods=['GET', 'POST'])
 def tag(id_question):
+
     if request.method == 'POST':
         tag_value = request.form['tag']
         if util.exists_specify_tag(id_question, tag_value):
@@ -381,6 +386,7 @@ def tag(id_question):
     else:    
         question_data = data_manager.get_question_by_id(id_question)
         return render_template('tag.html', data = question_data)
+
     
 
 

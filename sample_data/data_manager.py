@@ -71,7 +71,7 @@ def delete_question(cursor, question_id):
 @ database_common.connection_handler
 def get_answer_by_id(cursor, id):
     cursor.execute('SELECT * FROM answer WHERE question_id= %s', (id))
-    return cursor.fetchone()
+    return cursor.fetchall()
 
 
 @ database_common.connection_handler
@@ -230,8 +230,9 @@ def countUsersAnswersById(cursor, id):
 def countUsersCommentsById(cursor, id):
     cursor.execute(
         'SELECT COUNT(*) FROM comment WHERE user_id = %s', (id))
-    result = cursor.fetchall()
+    result = cursor.fetchone()
     return result['count']
+
 
 @database_common.connection_handler
 def assignTagToQuestion(cursor, tag_value, question_id):
