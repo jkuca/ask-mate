@@ -307,3 +307,10 @@ def updateAnswerAcceptingState(cursor, id, value):
 def updateUserReputation(cursor, user_id, value):
     cursor.execute(
         'UPDATE accounts SET reputation = (%s) WHERE id = (%s)', (value, user_id))
+
+
+@database_common.connection_handler
+def getUserReputationById(cursor, id):
+    cursor.execute(
+        'SELECT reputation FROM accounts WHERE id = %s', (id))
+    return cursor.fetchone()
